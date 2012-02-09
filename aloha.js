@@ -1,53 +1,85 @@
+/**
+ * @file
+ * Javascript to attach Aloha Editor to the right fields and blocks.
+ */
+
+(function(window, undefined) {
+  var Aloha = window.Aloha || (window.Aloha = {});
+
+  // Set settings
+  Aloha.settings = settings.aloha.alohaSettings;
+});
+
 (function($) {
   Drupal.behaviors.alohaEditor = {
-    attach: function (context, settings) {
+    attach: function(context, settings) {
+      Drupal.behaviors.alohaEditor.fixExtJsArrayPrototypeOverride();
       // Run only if aloha is required
       if (settings.aloha) {
-        // Aloha settings
-        GENTICS.Aloha.settings = settings.aloha.alohaSettings;
-
-        for (nid in settings.aloha.nodes) {
-          // Retrieving container
-          var container = $('#aloha-container-' + nid);
-
-          // Setting up Aloha and events associated
-          container.aloha();
-          container.blur(function() {
-            var html = $(this).html();
-            if (settings.aloha.nodes[nid].html != html) {
-              Drupal.behaviors.alohaEditor.save(nid, html);
-              // Update HTML
-              settings.aloha.nodes[nid].html = html;
-            }
-            $(this).removeClass('aloha-edit');
-          });
-          container.focus(function() {
-            $(this).addClass('aloha-edit');
-          });
-
-          // Store HTML
-          settings.aloha.nodes[nid].html = container.html();
-
-          // Setting up exit event
-          $(window).unload(function() {
-            var html = $('#aloha-container-' + nid).html();
-            if (settings.aloha.nodes[nid].html != html) {
-              Drupal.behaviors.alohaEditor.save(nid, html);
+        Aloha.ready(function() {
+          Aloha.require(['aloha', 'aloha/jquery'], function(Aloha, $) {
+            // Load Aloha for each editable content region
+            for (var key in settings.aloha.regions) {
+              Drupal.behaviors.alohaEditor.attachRegion(key, settings.aloha.regions[key]);
             }
           });
-        }
+        });
       }
     },
-    save: function(nid, html) {
-      // Save node
+
+    attachRegion: function(key, region) {
+      // Get the container
+      var $container = Aloha.jQuery('#aloha-target-' + key).parent();
+      var saveIfChanged = function () {
+        var html = Drupal.behaviors.alohaEditor.getContentFromContainer($container);
+        if (region.html != html) {
+          region.html = html;
+          Drupal.behaviors.alohaEditor.save(key, region);
+        }
+      };
+      // Store the original HTML to test if we need to fire save
+      region.html = Drupal.behaviors.alohaEditor.getContentFromContainer($container);
+      // Set up Aloha and associated events
+      $container.aloha();
+      // Save if required when leaving the edit area
+      $container.blur(saveIfChanged);
+      // Save if required when window is closed or we navigate to a new page
+      $(window).unload(saveIfChanged);
+    },
+
+    // Strip our span target and any following tags from content to be saved.
+    getContentFromContainer: function(container) {
+      var $containerClone = jQuery(container).clone();
+      $containerClone.find('.aloha-target, .aloha-target ~ *').remove();
+      return $containerClone.html();
+    },
+
+    // Workaround for http://drupal.org/node/1404584
+    fixExtJsArrayPrototypeOverride:function () {
+      if (Array.prototype.remove) {
+        delete Array.prototype.remove;
+        Ext.applyIf(Array.prototype, {
+          remove:function (o) {
+            if (!this.indexOf) return this;
+            var index = this.indexOf(o);
+            if (index != -1) {
+              this.splice(index, 1);
+            }
+            return this;
+          }
+        });
+      }
+    },
+
+    save: function(key, region) {
       $.ajax({
         type: "POST",
-        url: Drupal.settings.basePath + 'node/' + nid + '/aloha/save',
-        data: {body: html, lang: Drupal.settings.aloha.nodes[nid].lang},
+        url: Drupal.settings.basePath + 'aloha/' + region.type + '/save',
+        data: region,
         success: function(obj) {
           if (obj.status == 'saved') {
             var element = '<div class="aloha-status">' + Drupal.t('%title has been saved.', {'%title': obj.title}) + '</div>';
-            $(element).insertBefore($('#aloha-container-' + obj.nid)).delay(1300).fadeOut(function () {
+            $(element).insertBefore($('#aloha-target-' + key).parent()).delay(1300).fadeOut(function () {
               $(this).remove();
             });
           }

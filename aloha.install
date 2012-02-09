@@ -1,0 +1,55 @@
+<?php
+/**
+ * @file aloha.install
+ * Contains install and update functions for Aloha Editor.
+ */
+
+/**
+ * Implements of hook_install().
+ */
+function aloha_install() {
+  
+  aloha_js_settings();
+  
+  if (!file_exists(libraries_get_path('aloha') . '/aloha/lib/aloha.js')) {
+    drupal_set_message(check_plain(st('You need to download the !aloha and extract the entire contents of the archive into the %path folder of your server.', array('!aloha' => l(st('Aloha Editor'), 'http://www.aloha-editor.org/'), '%path' => 'sites/all/libraries/aloha'))), 'error');
+  }
+  drupal_set_message(check_plain(st('Activate some plugins from !alohaadmin to actually use the Aloha Editor.', array('!alohaadmin' => l(st('Aloha Editor admin panel'), 'admin/config/user-interface/aloha')))), 'warning');
+}
+
+/**
+ * Implements of hook_uninstall().
+ */
+function aloha_uninstall() {
+  db_query("DELETE FROM {variable} WHERE name LIKE 'aloha_%'");
+}
+
+function aloha_js_settings() {
+  global $base_url;
+  
+  //TODO: Add more settings.
+  $settings = array(
+    'logLevels' => array(
+      'error' => TRUE,
+      'warn' => TRUE,
+      'info' => FALSE,
+      'debug' => FALSE,
+    ),
+    'errorhandling' => FALSE,
+    'ribbon' => FALSE,
+    'floatingmenu' => array('width' => '630'),
+    'plugins' => array(
+      'link' => array(
+        'targetregex' => "^(?!.*[base_url]).*",
+        'target' => '_blank',
+        'cssclassregex' => "^(?!.*[base_url]).*",
+        'cssclass' => 'external',
+      ),
+      'table' => array(
+        'config' => array('table'),
+      ),
+    ),
+  );
+
+  variable_set('aloha_js_settings', $settings);
+}

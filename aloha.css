@@ -1,11 +1,15 @@
 /**
  * Aloha-related style
  */
-.aloha-edit {
-  background: #FFFFCC;
+.aloha-editable-active {
+  background: rgba(255, 255, 200, 0.4);
 }
 
 .aloha-status {
   background: #CCFFCC;
   padding: 2px;
+}
+
+.aloha-target {
+  display: none;
 }
