@@ -13,6 +13,7 @@ INSTALL
  into 'sites/all/libraries/aloha'.
 -Download and install the Libraries module
 -Install this module
+-Configure the settings and activate some plugins!
 
 NOTICE
 ------------------
