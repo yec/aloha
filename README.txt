@@ -29,6 +29,3 @@ the error is resolved and report the issue here if so.
 The aloha library is in the process of being upgraded to use jQuery UI instead
 of ExtJS so this should not be a problem with future versions of the library.
 https://github.com/alohaeditor/Aloha-Editor/tree/dev-jqueryui
-
-This is a forked copy of original project from drupal.org because the maintainers
-are inactive at the moment.
