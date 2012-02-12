@@ -30,7 +30,7 @@ function aloha_uninstall() {
 
 function aloha_js_settings() {
   global $base_url;
-  
+
   // @TODO: Add more settings.
   $settings = array(
     'logLevels' => array(

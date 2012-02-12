@@ -16,7 +16,7 @@ function aloha_admin() {
     foreach ($categories as $category) {
       foreach (array_diff(scandir($dir . '/' . $category), array('.', '..')) as $folder) {
         if (is_dir($dir . '/' . $category . '/' . $folder)) {
-          $options[$category . '/' . $folder] = ucfirst($folder);
+          $options[$category . '/' . $folder] = drupal_ucfirst($folder);
         }
       }
     }
