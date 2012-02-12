@@ -73,7 +73,10 @@ function aloha_menu() {
 }
 
 /**
+ * Page and access callback for saving content
  *
+ * @param $callback
+ * @param $type
  */
 function aloha_invoke_callback($callback, $type) {
   $info = _aloha_get_type_info($type);
@@ -84,7 +87,10 @@ function aloha_invoke_callback($callback, $type) {
 }
 
 /**
+ * Helper function for aloha_invoke_callback
  *
+ * @param $type
+ * @param $reset
  */
 function _aloha_get_type_info($type = NULL, $reset = FALSE) {
   $info = &drupal_static(__FUNCTION__);
