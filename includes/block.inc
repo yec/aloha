@@ -55,7 +55,7 @@ function aloha_save_block() {
   if (isset($_POST['html'])) {
     db_update('block_custom')
       ->fields(array(
-        'body' => $_POST['html']
+        'body' => $_POST['html'],
       ))
       ->condition('bid', $_POST['delta'])
       ->execute();
@@ -63,7 +63,7 @@ function aloha_save_block() {
       'title' => 'Block',
       'type' => 'block',
       'status' => 'saved',
-      'delta' => $_POST['delta']
+      'delta' => $_POST['delta'],
     ));
   }
   return;

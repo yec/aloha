@@ -56,7 +56,7 @@ function aloha_save_boxes() {
       'title' => 'Box',
       'type' => 'boxes',
       'status' => 'saved',
-      'delta' => $_POST['delta']
+      'delta' => $_POST['delta'],
     ));
   }
   return;

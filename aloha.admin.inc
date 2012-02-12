@@ -1,6 +1,6 @@
 <?php
 /**
- * @file aloha.admin.inc
+ * @file
  * Provides the Aloha Editors administrative interface.
  */
 
@@ -21,7 +21,7 @@ function aloha_admin() {
       }
     }
   }
-  
+
   $form['aloha_plugins'] = array(
     '#type' => 'fieldset',
     '#title' => t('Plugins'),
@@ -31,15 +31,15 @@ function aloha_admin() {
     '#tree' => TRUE,
     '#theme' => 'aloha_plugins_settings',
   );
-  
+
   $plugins_status = variable_get('aloha_plugins', array());
-  
+
   $form['aloha_plugins']['list'] = array(
     '#type' => 'checkboxes',
     '#options' => $options,
     '#default_value' => !empty($plugins_status) ? $plugins_status['list'] : array(),
   );
-  
+
   if (!file_exists(libraries_get_path('aloha') . '/aloha/lib/aloha.js')) {
     drupal_set_message(check_plain(t('You need to download the !aloha and extract the entire contents of the archive into the %path folder of your server.', array('!aloha' => l(t('Aloha Editor'), 'http://www.aloha-editor.org/'), '%path' => 'sites/all/libraries/aloha'))), 'error', FALSE);
   }
@@ -66,7 +66,9 @@ function aloha_admin() {
 
 /**
  * Layout for the plugins list.
+ *
  * @param <type> $variables
+ *   Variables for theming
  */
 function theme_aloha_plugins_settings($variables) {
   $form = $variables['form'];
@@ -103,7 +105,9 @@ function theme_aloha_plugins_settings($variables) {
  * Clear JS cache only on Save submit
  *
  * @param <type> $form
+ *   Form submitted
  * @param <type> $form_state
+ *   Form state submitted
  */
 function aloha_admin_submit($form, &$form_state) {
 

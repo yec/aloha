@@ -20,20 +20,20 @@ function aloha_permission() {
   return array(
     'use aloha' => array(
       'title' => t('Use the Aloha Editor'),
-      'description' => t('Use the Aloha Editor to edit node content.')
+      'description' => t('Use the Aloha Editor to edit node content.'),
     ),
     'administer aloha' => array(
       'title' => t('Administer Aloha Editor settings'),
       'description' => t('Administer Aloha Editor module settings.'),
-    )
+    ),
   );
 }
 
 /**
  * Implements hook_theme().
  *
- * @see drupal_common_theme(), common.inc
- * @see template_preprocess_page(), theme.inc
+ * @see drupal_common_theme()
+ * @see template_preprocess_page()
  */
 function aloha_theme() {
   return array(
@@ -75,8 +75,10 @@ function aloha_menu() {
 /**
  * Page and access callback for saving content
  *
- * @param $callback
- * @param $type
+ * @param <type> $callback
+ *   Callback
+ * @param <type> $type
+ *   Callback type
  */
 function aloha_invoke_callback($callback, $type) {
   $info = _aloha_get_type_info($type);
@@ -89,8 +91,10 @@ function aloha_invoke_callback($callback, $type) {
 /**
  * Helper function for aloha_invoke_callback
  *
- * @param $type
- * @param $reset
+ * @param <type> $type
+ *   Type to get
+ * @param <type> $reset
+ *   Reset value
  */
 function _aloha_get_type_info($type = NULL, $reset = FALSE) {
   $info = &drupal_static(__FUNCTION__);
@@ -112,7 +116,7 @@ function _aloha_include_files() {
   $included = &drupal_static(__FUNCTION__);
   if (!$included) {
     if (!in_array('aloha', array_keys(libraries_get_libraries()))) {
-      // Display a message when aloha is not found
+      // Display a message when aloha is not found.
       drupal_set_message(check_plain(t('You need to download the !aloha and extract the entire contents of the archive into the %path folder of your server.', array('!aloha' => l(t('Aloha Editor'), 'http://www.aloha-editor.org/'), '%path' => 'sites/all/libraries/aloha'))), 'error', FALSE);
       return FALSE;
     }
@@ -131,7 +135,7 @@ function _aloha_include_files() {
       $plugins_activated = substr($plugins_activated, 0, -1);
     }
     $plugins_activated .= '"';
-    
+
     // Create the markup to be added.
     // @TODO: This can probably be done with the Render API with the 'html_tag'
     // element.
@@ -158,8 +162,10 @@ function _aloha_include_files() {
 /**
  * Add data about an aloha enabled region to the inline js for a page.
  *
- * @param $key
- * @param $data
+ * @param <type> $key
+ *   Region key
+ * @param <type> $data
+ *   Region data
  */
 function _aloha_add_region_to_js($key, $data) {
   $setting = array('aloha' => array('regions' => array($key => $data)));
@@ -169,8 +175,10 @@ function _aloha_add_region_to_js($key, $data) {
 /**
  * Add a target span to a content region which should be editable.
  *
- * @param $key
- * @param $data
+ * @param <type> $content
+ *   Content
+ * @param <type> $key
+ *   Region key
  */
 function _aloha_add_target_to_region(&$content, $key) {
   $content .= '<span class="aloha-target" id="aloha-target-' . $key . '"></span>';
@@ -179,13 +187,14 @@ function _aloha_add_target_to_region(&$content, $key) {
 /**
  * Replace Aloha custom tokens.
  *
- * @param $array
+ * @param <type> $array
+ *   Settings array
  */
 function _aloha_replace_tokens($array) {
   global $base_url;
   $new_array = array();
   if (!empty($array)) {
-    foreach ($array AS $key => $value) {
+    foreach ($array as $key => $value) {
       $new_array[$key] = (is_array($value) ? _aloha_replace_tokens($value) : str_replace('[base_url]', $base_url, $value));
     }
   }

@@ -28,15 +28,15 @@ function field_aloha_form_alter(&$form, &$form_state, $form_id) {
       '#default_value' => variable_get('aloha_fields', TRUE),
     );
   }
-  
-  // Add setting to enable/disable front end editing per field basis
+
+  // Add setting to enable/disable front end editing per field basis.
   if ($form_id === 'field_ui_field_edit_form' && isset($form['#field']['type'])) {
-	  if ($form['#field']['type'] === 'text' || $form['#field']['type'] === 'text_long' || $form['#field']['type'] === 'text_with_summary') {
+    if ($form['#field']['type'] === 'text' || $form['#field']['type'] === 'text_long' || $form['#field']['type'] === 'text_with_summary') {
       $form['field']['settings']['front_end_editable'] = array(
         '#type' => 'checkbox',
         '#title' => t('Enable front end editing'),
-        '#description' => t('Enables front end editing for this field. This doesn\'t have effect if front end editing is enabled globally.'),
-		    '#default_value' =>  isset($form['#field']['settings']['front_end_editable']) ? $form['#field']['settings']['front_end_editable'] : '0',
+        '#description' => t('Enables front end editing for this field. This does not have effect if front end editing is enabled globally.'),
+        '#default_value' =>  isset($form['#field']['settings']['front_end_editable']) ? $form['#field']['settings']['front_end_editable'] : '0',
       );
     }
   }
@@ -46,10 +46,10 @@ function field_aloha_form_alter(&$form, &$form_state, $form_id) {
  * Implements hook_field_attach_view_alter().
  */
 function aloha_field_attach_view_alter(&$output, $context) {
-    $front_end_editing_globally = variable_get('aloha_fields', TRUE);
-    foreach (element_children($output) as $field_name) {
+  $front_end_editing_globally = variable_get('aloha_fields', TRUE);
+  foreach (element_children($output) as $field_name) {
     $field = field_info_field($field_name);
-    // Check if front end editing is enabled globally or per field basis
+    // Check if front end editing is enabled globally or per field basis.
     if ($front_end_editing_globally || $field['settings']['front_end_editable']) {
       $instance = $output[$field_name];
       // @TODO Add support for summaries to be edited.
@@ -94,10 +94,10 @@ function aloha_save_field() {
     $node->{$_POST['field_name']}[$_POST['lang']][$_POST['delta']]['value'] = $_POST['html'];
     node_save($node);
     return drupal_json_output(array(
-      'title' => 'Field', 
+      'title' => 'Field',
       'type' => 'field',
       'status' => 'saved',
-      'delta' => $_POST['delta']
+      'delta' => $_POST['delta'],
     ));
   }
   return;
