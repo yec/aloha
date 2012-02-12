@@ -25,7 +25,7 @@ function aloha_uninstall() {
 }
 
 /**
- * Define basic Aloha js settings.
+ * Defines basic Aloha js settings.
  */
 
 function aloha_js_settings() {
@@ -74,8 +74,8 @@ function aloha_requirements($phase) {
     }
     else {
       $requirements['aloha'] = array(
-        'value' => t('Missing!'), 
-        'severity' => REQUIREMENT_ERROR, 
+        'value' => t('Missing!'),
+        'severity' => REQUIREMENT_ERROR,
         'description' => t('Aloha Editor library missing. Download the Aloha Editor library from <a href="@url">http://www.aloha-editor.org/</a> and place it in to sites/all/libraries/aloha', array('@url' => 'http://www.aloha-editor.org/')),
       );
     }
