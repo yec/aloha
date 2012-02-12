@@ -57,3 +57,29 @@ function aloha_js_settings() {
 
   variable_set('aloha_js_settings', $settings);
 }
+
+/**
+ * Implements hook_requirements().
+ */
+function aloha_requirements($phase) {
+  $requirements = array();
+
+  if ($phase == 'runtime') {
+    // Check for the Stripe PHP library.
+    if (file_exists(libraries_get_path('aloha') . '/aloha/lib/aloha.js')) {
+      $requirements['aloha'] = array(
+        'value' => 'Installed',
+        'severity' => REQUIREMENT_OK,
+      );
+    }
+    else {
+      $requirements['aloha'] = array(
+        'value' => t('Missing!'), 
+        'severity' => REQUIREMENT_ERROR, 
+        'description' => t('Aloha Editor library missing. Download the Aloha Editor library from <a href="@url">http://www.aloha-editor.org/</a> and place it in to sites/all/libraries/aloha', array('@url' => 'http://www.aloha-editor.org/')),
+      );
+    }
+    $requirements['aloha']['title'] = t('Aloha Editor library');
+  }
+  return $requirements;
+}
