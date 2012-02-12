@@ -52,9 +52,7 @@ function aloha_field_attach_view_alter(&$output, $context) {
     // Check if front end editing is enabled globally or per field basis.
     if ($front_end_editing_globally || $field['settings']['front_end_editable']) {
       $instance = $output[$field_name];
-      // @TODO Add support for summaries to be edited.
-      // At the moment we are just disabling edit on them.
-      if (aloha_access_field($field_name, $instance['#object']) && !$instance['#view_mode'] == 'teaser') {
+      if (aloha_access_field($field_name, $instance['#object'])) {
         // Attach required files.
         _aloha_include_files();
 
@@ -74,6 +72,7 @@ function aloha_field_attach_view_alter(&$output, $context) {
                 'delta' => $delta,
                 'lang' => $instance['#object']->language,
                 'entity_type' => $instance['#entity_type'],
+                'view_mode' => $instance['#view_mode'],
               );
               _aloha_add_target_to_region($output[$field_name][$delta]['#markup'], $key);
               _aloha_add_region_to_js($key, $data);
@@ -91,7 +90,14 @@ function aloha_field_attach_view_alter(&$output, $context) {
 function aloha_save_field() {
   if (isset($_POST['html'])) {
     $node = node_load(check_plain($_POST['nid']));
-    $node->{$_POST['field_name']}[$_POST['lang']][$_POST['delta']]['value'] = $_POST['html'];
+    switch ($_POST['view_mode']) {
+      case 'teaser':
+        $node->{$_POST['field_name']}[$_POST['lang']][$_POST['delta']]['summary'] = $_POST['html'];
+        break;
+      case 'full':
+        $node->{$_POST['field_name']}[$_POST['lang']][$_POST['delta']]['value'] = $_POST['html'];
+        break;
+    }
     node_save($node);
     return drupal_json_output(array(
       'title' => 'Field',
