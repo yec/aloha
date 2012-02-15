@@ -25,6 +25,7 @@
           });
         });
       }
+      Drupal.behaviors.alohaEditor.hoverEffect();
     },
 
     attachRegion: function(key, region) {
@@ -55,7 +56,7 @@
     },
 
     // Workaround for http://drupal.org/node/1404584
-    fixExtJsArrayPrototypeOverride:function () {
+    fixExtJsArrayPrototypeOverride: function () {
       if (Array.prototype.remove) {
         delete Array.prototype.remove;
         Ext.applyIf(Array.prototype, {
@@ -69,6 +70,22 @@
           }
         });
       }
+    },
+    
+    hoverEffect: function () {
+      var color = $(".aloha-target").parent().css("background-color");
+      $(".aloha-target").parent().hover(
+        function() {
+          $(this).animate({
+          	backgroundColor: "rgb(255, 255, 200)",
+          }, 800 );
+        },
+        function() {
+          $(this).animate({
+          	backgroundColor: color,
+          }, 800 );
+        }
+      );
     },
 
     save: function(key, region) {

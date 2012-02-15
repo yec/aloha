@@ -146,6 +146,9 @@ function _aloha_include_files() {
 
     drupal_add_html_head($aloha_to_html_head, 'aloha');
 
+    // Add jQuery UI effects.core
+    drupal_add_library('system', 'effects');
+    
     // Module files
     drupal_add_js(drupal_get_path('module', 'aloha') . '/aloha.js');
     drupal_add_css(drupal_get_path('module', 'aloha') . '/aloha.css');
