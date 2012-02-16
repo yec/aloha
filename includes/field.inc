@@ -90,12 +90,16 @@ function aloha_field_attach_view_alter(&$output, $context) {
 function aloha_save_field() {
   if (isset($_POST['html'])) {
     $node = node_load(check_plain($_POST['nid']));
+    $lang = LANGUAGE_NONE;
+    if ($_POST['lang']) {
+      $lang = $_POST['lang'];
+    }
     switch ($_POST['formatter']) {
       case 'text_summary_or_trimmed':
-        $node->{$_POST['field_name']}[$_POST['lang']][$_POST['delta']]['summary'] = $_POST['html'];
+        $node->{$_POST['field_name']}[$lang][$_POST['delta']]['summary'] = $_POST['html'];
         break;
       case 'text_default':
-        $node->{$_POST['field_name']}[$_POST['lang']][$_POST['delta']]['value'] = $_POST['html'];
+        $node->{$_POST['field_name']}[$lang][$_POST['delta']]['value'] = $_POST['html'];
         break;
     }
     node_save($node);
