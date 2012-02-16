@@ -34,8 +34,10 @@ function block_aloha_form_alter(&$form, &$form_state, $form_id) {
  * Implements hook_block_view_alter().
  */
 function aloha_block_view_alter(&$data, $block) {
+  global $user;
+  $use_front_end_editing = !isset($user->data['front_end_edit']) || $user->data['front_end_edit'];
   // Check access.
-  if ($block->module == 'block' && aloha_access_block()) {
+  if ($block->module == 'block' && aloha_access_block() && $use_front_end_editing) {
     if (_aloha_include_files()) {
       $key = "{$block->module}-{$block->delta}";
       $region_data = array(
