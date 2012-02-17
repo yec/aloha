@@ -9,7 +9,7 @@ REQUIREMENTS
 
 INSTALL
 ------------------
--Download the aloha editor from http://www.aloha-editor.org/ and extact it
+-Download the aloha editor from http://www.aloha-editor.org/ and extract it
  into 'sites/all/libraries/aloha'.
 -Download and install the Libraries module
 -Install this module
