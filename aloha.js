@@ -25,7 +25,6 @@
           });
         });
       }
-      Drupal.behaviors.alohaEditor.hoverEffect();
     },
 
     attachRegion: function(key, region) {
@@ -70,22 +69,6 @@
           }
         });
       }
-    },
-    
-    hoverEffect: function () {
-      var color = $(".aloha-target").parent().css("background-color");
-      $(".aloha-target").parent().hover(
-        function() {
-          $(this).animate({
-          	backgroundColor: "rgb(255, 255, 200)",
-          }, 800 );
-        },
-        function() {
-          $(this).animate({
-          	backgroundColor: color,
-          }, 800 );
-        }
-      );
     },
 
     save: function(key, region) {

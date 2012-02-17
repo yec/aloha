@@ -1,12 +1,13 @@
 /**
  * Aloha-related style
  */
+ 
 .aloha-editable:hover {
   outline: #999 dashed 1px;
 }
-
 .aloha-editable-active {
   background: rgba(255, 255, 200, 0.4);
+  outline: #999 dashed 1px;
 }
 
 .aloha-status {
