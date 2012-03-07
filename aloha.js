@@ -77,12 +77,18 @@
         url: Drupal.settings.basePath + 'aloha/' + region.type + '/save',
         data: region,
         success: function(obj) {
-          if (obj.status == 'saved') {
-            var element = '<div class="aloha-status">' + Drupal.t('%title has been saved.', {'%title': obj.title}) + '</div>';
-            $(element).insertBefore($('#aloha-target-' + key).parent()).delay(1300).fadeOut(function () {
-              $(this).remove();
-            });
+          var element;
+          switch (obj.status) {
+            case 'saved':
+              element = '<div class="aloha-status">' + Drupal.t('%title has been saved.', {'%title': obj.title}) + '</div>';
+              break;
+            case 'error':
+              element = '<div class="aloha-error">' + Drupal.t('%title has encountered an error whilst being saved.', {'%title':obj.title}) + '</div>';
+              break;
           }
+          $(element).insertBefore($('#aloha-target-' + key).parent()).delay(1300).fadeOut(function () {
+            $(this).remove();
+          });
         }
       });
     }

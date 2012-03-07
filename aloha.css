@@ -22,6 +22,11 @@
   padding: 2px;
 }
 
+.aloha-error {
+  background: #ffcccc;
+  padding: 2px;
+}
+
 .aloha-target {
   display: none;
 }

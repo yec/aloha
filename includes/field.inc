@@ -65,6 +65,9 @@ function aloha_field_attach_view_alter(&$output, $context) {
               case 'text':
               case 'text_with_summary':
               case 'text_long':
+              case 'number_integer':
+              case 'number_float':
+              case 'number_decimal':
                 $key = "{$field_name}-{$instance['#object']->vid}-{$delta}";
 
                 $data = array(
@@ -99,16 +102,28 @@ function aloha_save_field() {
         $node->{$_POST['field_name']}[$lang][$_POST['delta']]['summary'] = $_POST['html'];
         break;
       case 'text_default':
+      case 'number_integer':
+      case 'number_float':
+      case 'number_decimal':
         $node->{$_POST['field_name']}[$lang][$_POST['delta']]['value'] = $_POST['html'];
         break;
     }
-    node_save($node);
-    return drupal_json_output(array(
-      'title' => 'Field',
-      'type' => 'field',
-      'status' => 'saved',
-      'delta' => $_POST['delta'],
-    ));
+    try {
+      node_save($node);
+      return drupal_json_output(array(
+        'title' => 'Field',
+        'type' => 'field',
+        'status' => 'saved',
+        'delta' => $_POST['delta'],
+      ));
+    } catch(Exception $e) {
+      return drupal_json_output(array(
+        'title' => 'Field',
+        'type' => 'field',
+        'status' => 'error',
+        'delta' => $_POST['delta'],
+      ));
+    }
   }
   return;
 }
