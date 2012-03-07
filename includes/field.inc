@@ -73,7 +73,6 @@ function aloha_field_attach_view_alter(&$output, $context) {
                   'revision_id' => $instance['#object']->vid,
                   'field_name' => $field_name,
                   'delta' => $delta,
-                  'lang' => $instance['#object']->language,
                   'entity_type' => $instance['#entity_type'],
                   'formatter' => $instance['#formatter'],
                 );
@@ -94,10 +93,7 @@ function aloha_field_attach_view_alter(&$output, $context) {
 function aloha_save_field() {
   if (isset($_POST['html'])) {
     $node = node_load(check_plain($_POST['nid']));
-    $lang = LANGUAGE_NONE;
-    if ($_POST['lang']) {
-      $lang = $_POST['lang'];
-    }
+    $lang = field_language('node', $node, $_POST['field_name']);
     switch ($_POST['formatter']) {
       case 'text_summary_or_trimmed':
         $node->{$_POST['field_name']}[$lang][$_POST['delta']]['summary'] = $_POST['html'];
