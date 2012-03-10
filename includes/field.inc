@@ -53,7 +53,9 @@ function aloha_field_attach_view_alter(&$output, $context) {
     foreach (element_children($output) as $field_name) {
       $field = field_info_field($field_name);
       // Check if front end editing is enabled globally or per field basis.
-      if (($front_end_editing_globally || $field['settings']['front_end_editable']) && $use_front_end_editing) {
+      if (($front_end_editing_globally
+          || (isset($field['settings']['front_end_editable']) && $field['settings']['front_end_editable'])
+          && $use_front_end_editing)) {
         $instance = $output[$field_name];
         if (aloha_access_field($field_name, $instance['#object'])) {
           // Attach required files.
