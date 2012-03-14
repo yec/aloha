@@ -79,7 +79,7 @@ function aloha_field_attach_view_alter(&$output, $context) {
                   'field_name' => $field_name,
                   'delta' => $delta,
                   'entity_type' => $instance['#entity_type'],
-                  'formatter' => $instance['#formatter'],
+                  'field_type' => $instance['#field_type'],
                 );
                 _aloha_add_target_to_region($output[$field_name][$delta]['#markup'], $key);
                 _aloha_add_region_to_js($key, $data);
@@ -99,11 +99,10 @@ function aloha_save_field() {
   if (isset($_POST['html'])) {
     $node = node_load(check_plain($_POST['nid']));
     $lang = field_language('node', $node, $_POST['field_name']);
-    switch ($_POST['formatter']) {
-      case 'text_summary_or_trimmed':
-        $node->{$_POST['field_name']}[$lang][$_POST['delta']]['summary'] = $_POST['html'];
-        break;
-      case 'text_default':
+    switch ($_POST['field_type']) {
+      case 'text':
+      case 'text_with_summary':
+      case 'text_long':
       case 'number_integer':
       case 'number_float':
       case 'number_decimal':
