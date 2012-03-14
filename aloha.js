@@ -11,6 +11,9 @@
 });
 
 (function($) {
+  // Elements to be stripped from content html before being saved
+  Drupal.settings.alohaElementsToStrip = Drupal.settings.alohaElementsToStrip || '.aloha-target, .aloha-target ~ *, .contextual-links-wrapper';
+
   Drupal.behaviors.alohaEditor = {
     attach: function(context, settings) {
       Drupal.behaviors.alohaEditor.fixExtJsArrayPrototypeOverride();
@@ -50,7 +53,7 @@
     // Strip our span target and any following tags from content to be saved.
     getContentFromContainer: function(container) {
       var $containerClone = jQuery(container).clone();
-      $containerClone.find('.aloha-target, .aloha-target ~ *').remove();
+      $containerClone.find(Drupal.settings.alohaElementsToStrip).remove();
       return $containerClone.html();
     },
 

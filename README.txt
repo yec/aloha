@@ -15,6 +15,20 @@ INSTALL
 -Install this module
 -Configure the settings and activate some plugins!
 
+TWEAK
+------------------
+Certain elements need to be removed from the content before being sent back to
+the server to be saved. These include the aloha target spans themselves, any
+elements added after the aloha target spans (eg context can add target links to
+the content area) and contextual links (dependent upon your theme).
+If you need to remove other elements you may override
+Drupal.settings.alohaElementsToStrip
+which is a simple jQuery selector string listing the elements to be removed.
+It defaults to
+Drupal.settings.alohaElementsToStrip = '.aloha-target, .aloha-target ~ *, .contextual-links-wrapper'
+so remember to include these in your override.
+You should be able to override this from within a module or from your theme js.
+
 NOTICE
 ------------------
 Because Aloha Editor is also under active development some of the plugins might
