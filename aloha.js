@@ -32,7 +32,7 @@
 
     attachRegion: function(key, region) {
       // Get the container
-      var $container = Aloha.jQuery('#aloha-target-' + key).parent();
+      var $container = Aloha.jQuery('.aloha-target-' + key).parent();
       var saveIfChanged = function () {
         var html = Drupal.behaviors.alohaEditor.getContentFromContainer($container);
         if (region.html != html) {
@@ -89,7 +89,8 @@
               element = '<div class="aloha-error">' + Drupal.t('%title has encountered an error whilst being saved.', {'%title':obj.title}) + '</div>';
               break;
           }
-          $(element).insertBefore($('#aloha-target-' + key).parent()).delay(1300).fadeOut(function () {
+          // TODO update any other fields
+          $(element).insertBefore($('.aloha-target-' + key).parent()).delay(1300).fadeOut(function () {
             $(this).remove();
           });
         }

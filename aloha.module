@@ -195,7 +195,7 @@ function _aloha_add_region_to_js($key, $data) {
  *   Region key
  */
 function _aloha_add_target_to_region(&$content, $key) {
-  $content .= '<span class="aloha-target" id="aloha-target-' . $key . '"></span>';
+  $content .= '<span class="aloha-target aloha-target-' . $key . '"></span>';
 }
 
 /**
