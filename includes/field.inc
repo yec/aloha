@@ -46,46 +46,46 @@ function field_aloha_form_alter(&$form, &$form_state, $form_id) {
  * Implements hook_field_attach_view_alter().
  */
 function aloha_field_attach_view_alter(&$output, $context) {
-    $front_end_editing_globally = variable_get('aloha_fields', TRUE);
-    foreach (element_children($output) as $field_name) {
-      $field = field_info_field($field_name);
-      // Check if front end editing is enabled globally or per field basis.
-      if (($front_end_editing_globally
-          || (isset($field['settings']['front_end_editable']) && $field['settings']['front_end_editable'])
-          && _aloha_use_fee())) {
-        $instance = $output[$field_name];
-        if (aloha_access_field($field_name, $instance['#object'])) {
-          // Attach required files.
-          _aloha_include_files();
+  $front_end_editing_globally = variable_get('aloha_fields', TRUE);
+  foreach (element_children($output) as $field_name) {
+    $field = field_info_field($field_name);
+    // Check if front end editing is enabled globally or per field basis.
+    if (($front_end_editing_globally
+        || (isset($field['settings']['front_end_editable']) && $field['settings']['front_end_editable'])
+        && _aloha_use_fee())) {
+      $instance = $output[$field_name];
+      if (aloha_access_field($field_name, $instance['#object'])) {
+        // Attach required files.
+        _aloha_include_files();
 
-          // Process each field.
-          foreach ($instance['#items'] as $delta => $item) {
-            switch ($instance['#field_type']) {
-              case 'text':
-              case 'text_with_summary':
-              case 'text_long':
-              case 'number_integer':
-              case 'number_float':
-              case 'number_decimal':
-                $key = "{$field_name}-{$instance['#object']->vid}-{$delta}";
+        // Process each field.
+        foreach ($instance['#items'] as $delta => $item) {
+          switch ($instance['#field_type']) {
+            case 'text':
+            case 'text_with_summary':
+            case 'text_long':
+            case 'number_integer':
+            case 'number_float':
+            case 'number_decimal':
+              $key = "{$field_name}-{$instance['#object']->vid}-{$delta}";
 
-                $data = array(
-                  'type' => 'field',
-                  'nid' => $instance['#object']->nid,
-                  'revision_id' => $instance['#object']->vid,
-                  'field_name' => $field_name,
-                  'delta' => $delta,
-                  'entity_type' => $instance['#entity_type'],
-                  'field_type' => $instance['#field_type'],
-                );
-                _aloha_add_target_to_region($output[$field_name][$delta]['#markup'], $key);
-                _aloha_add_region_to_js($key, $data);
-                break;
-            }
+              $data = array(
+                'type' => 'field',
+                'nid' => $instance['#object']->nid,
+                'revision_id' => $instance['#object']->vid,
+                'field_name' => $field_name,
+                'delta' => $delta,
+                'entity_type' => $instance['#entity_type'],
+                'field_type' => $instance['#field_type'],
+              );
+              _aloha_add_target_to_region($output[$field_name][$delta]['#markup'], $key);
+              _aloha_add_region_to_js($key, $data);
+              break;
           }
         }
       }
     }
+  }
 }
 
 /**
