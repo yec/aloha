@@ -37,3 +37,9 @@ function aloha_user_presave(&$edit, $account, $category) {
     $edit['data']['front_end_edit'] = $edit['front_end_edit'];
   }
 }
+
+function _aloha_use_fee() {
+  global $user;
+  if (arg(0) == 'admin') return FALSE;
+  return !isset($user->data['front_end_edit']) || $user->data['front_end_edit'];
+}

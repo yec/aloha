@@ -29,10 +29,8 @@ function boxes_aloha_form_alter(&$form, &$form_state, $form_id) {
  * Implements hook_preprocess_boxes_box().
  */
 function aloha_preprocess_boxes_box(&$vars, $hook) {
-  global $user;
-  $use_front_end_editing = !isset($user->data['front_end_edit']) || $user->data['front_end_edit'];
   // Check access.
-  if (variable_get('boxes_edit_location', '') == 'aloha' && aloha_access_boxes() && $use_front_end_editing) {
+  if (variable_get('boxes_edit_location', '') == 'aloha' && aloha_access_boxes() && _aloha_use_fee()) {
     if (_aloha_include_files()) {
       unset($vars['block']['controls']);
       $key = "boxes-{$vars['block']['delta']}";
