@@ -122,7 +122,6 @@ function aloha_save_field() {
       ));
     }
   }
-  return;
 }
 
 /**
