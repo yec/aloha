@@ -46,6 +46,9 @@ function field_aloha_form_alter(&$form, &$form_state, $form_id) {
  * Implements hook_field_attach_view_alter().
  */
 function aloha_field_attach_view_alter(&$output, $context) {
+  // Only attach aloha to node entities
+  if ($context['entity_type'] != 'node') return;
+
   $front_end_editing_globally = variable_get('aloha_fields', TRUE);
   foreach (element_children($output) as $field_name) {
     $field = field_info_field($field_name);
