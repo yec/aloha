@@ -26,8 +26,8 @@ function aloha_admin() {
     '#type' => 'fieldset',
     '#title' => t('Plugins'),
     '#description' => t('Select plugins that you want to use with Aloha Editor.'),
-    '#collapsible' => TRUE,
-    '#collapsed' => TRUE,
+    '#collapsible' => FALSE,
+    '#collapsed' => FALSE,
     '#tree' => TRUE,
     '#theme' => 'aloha_plugins_settings',
   );
