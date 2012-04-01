@@ -17,8 +17,8 @@
   Drupal.behaviors.alohaEditor = {
     attach: function(context, settings) {
       Drupal.behaviors.alohaEditor.fixExtJsArrayPrototypeOverride();
-      // Run only if aloha is required
-      if (settings.aloha) {
+      // Run only if aloha is required and initialised
+      if (settings.aloha && typeof(Aloha) === 'object') {
         Aloha.ready(function() {
           Aloha.require(['aloha', 'aloha/jquery'], function(Aloha, $) {
             // Load Aloha for each editable content region
