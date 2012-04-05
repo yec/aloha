@@ -47,7 +47,9 @@ function field_aloha_form_alter(&$form, &$form_state, $form_id) {
  */
 function aloha_field_attach_view_alter(&$output, $context) {
   // Only attach aloha to node entities
-  if ($context['entity_type'] != 'node') return;
+  if ($context['entity_type'] != 'node') {
+    return;
+  }
 
   $front_end_editing_globally = variable_get('aloha_fields', TRUE);
   foreach (element_children($output) as $field_name) {
@@ -81,6 +83,11 @@ function aloha_field_attach_view_alter(&$output, $context) {
                 'entity_type' => $instance['#entity_type'],
                 'field_type' => $instance['#field_type'],
               );
+
+              // We need to render this element in the case that it isn't a
+              // standard #markup element.
+              $output[$field_name][$delta] = array('#markup' => render($output[$field_name][$delta]));
+
               _aloha_add_target_to_region($output[$field_name][$delta]['#markup'], $key);
               _aloha_add_region_to_js($key, $data);
               break;
