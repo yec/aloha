@@ -41,7 +41,7 @@ function aloha_admin() {
   );
 
   if (!file_exists(libraries_get_path('aloha') . '/aloha/lib/aloha.js')) {
-    drupal_set_message(check_plain(t('You need to download the !aloha and extract the entire contents of the archive into the %path folder of your server.', array('!aloha' => l(t('Aloha Editor'), 'http://www.aloha-editor.org/'), '%path' => 'sites/all/libraries/aloha'))), 'error', FALSE);
+    drupal_set_message(t('You need to download the !aloha and extract the entire contents of the archive into the %path folder of your server.', array('!aloha' => l(t('Aloha Editor'), 'http://www.aloha-editor.org/'), '%path' => 'sites/all/libraries/aloha')), 'error', FALSE);
   }
 
   $is_active = FALSE;
