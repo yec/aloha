@@ -12,9 +12,9 @@ function aloha_install() {
   aloha_js_settings();
 
   if (!file_exists(libraries_get_path('aloha') . '/aloha/lib/aloha.js')) {
-    drupal_set_message(check_plain(st('You need to download the !aloha and extract the entire contents of the archive into the %path folder of your server.', array('!aloha' => l(st('Aloha Editor'), 'http://www.aloha-editor.org/'), '%path' => 'sites/all/libraries/aloha'))), 'error');
+    drupal_set_message(t('You need to download the !aloha and extract the entire contents of the archive into the %path folder of your server.', array('!aloha' => l(t('Aloha Editor'), 'http://www.aloha-editor.org/'), '%path' => 'sites/all/libraries/aloha')), 'error', FALSE);
   }
-  drupal_set_message(check_plain(st('Activate some plugins from !alohaadmin to actually use the Aloha Editor.', array('!alohaadmin' => l(st('Aloha Editor admin panel'), 'admin/config/user-interface/aloha')))), 'warning');
+  drupal_set_message(t('Activate some plugins from !alohaadmin to actually use the Aloha Editor.', array('!alohaadmin' => l(t('Aloha Editor admin panel'), 'admin/config/user-interface/aloha'))), 'warning');
 }
 
 /**

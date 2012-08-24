@@ -128,7 +128,7 @@ function _aloha_include_files() {
   if (!$included) {
     if (!in_array('aloha', array_keys(libraries_get_libraries()))) {
       // Display a message when aloha is not found.
-      drupal_set_message(check_plain(t('You need to download the !aloha and extract the entire contents of the archive into the %path folder of your server.', array('!aloha' => l(t('Aloha Editor'), 'http://www.aloha-editor.org/'), '%path' => 'sites/all/libraries/aloha'))), 'error', FALSE);
+      drupal_set_message(t('You need to download the !aloha and extract the entire contents of the archive into the %path folder of your server.', array('!aloha' => l(t('Aloha Editor'), 'http://www.aloha-editor.org/'), '%path' => 'sites/all/libraries/aloha')), 'error', FALSE);
       return FALSE;
     }
     // Because Drupal doesn't allow to setup custom attributes for js or css
