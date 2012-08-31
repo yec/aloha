@@ -61,11 +61,9 @@ define( [
       ContentHandlerManager.register('drupal', DrupalContentHandler);
 
       Aloha.bind('aloha-editable-activated', function($event, params) {
-        // @todo Figure out how to deal with the data-edit-allowed-tags
-        // attribute on the full node form.
-        var allowedTagsList = Aloha.activeEditable.obj
-                              .closest('.edit-field')
-                              .data('edit-allowed-tags');
+        var allowedTagsList = Aloha.activeEditable.originalObj
+                              .closest('.aloha-allowed-tags')
+                              .data('allowed-tags');
 
         if (allowedTagsList) {
           allowedTags = allowedTagsList.split(',');
