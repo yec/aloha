@@ -1,0 +1,4 @@
+name = Filter — "true WYSIWYG"
+description = Proposed modifications to Drupal core's filter module. Necessary to support "true WYSIWYG" editors.
+package = User interface
+core = 7.x
