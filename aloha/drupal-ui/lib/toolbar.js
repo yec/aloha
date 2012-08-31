@@ -54,8 +54,8 @@ define([
 			    key;
 			this._super(context);
 			this.tabContainers = Tab.createContainers();
-			Toolbar.$tabsSurfaceContainer.append( this.tabContainers.handlesContainer );
-			Toolbar.$mainSurfaceContainer.append( this.tabContainers.panelsContainer );
+			Toolbar.$handlesSurfaceContainer.append( this.tabContainers.handlesContainer );
+			Toolbar.$panelsSurfaceContainer.append( this.tabContainers.panelsContainer );
 			this._tabBySlot = {};
 
 			for (i = 0; i < tabs.length; i++) {
@@ -85,39 +85,57 @@ define([
 		 * Shows the toolbar.
 		 */
 		show: function () {
-			// Move the toolbar surface into our custom location.
-			jQuery( '.edit-toolgroup.wysiwyg-tabs:first' )
-				.append( Toolbar.$tabsSurfaceContainer.detach() );
-			jQuery( '.edit-toolgroup.wysiwyg:first' )
-				.append( Toolbar.$mainSurfaceContainer.detach() );
-
-			// Now show the appropriate content.
-			Toolbar.$tabsSurfaceContainer.stop().fadeTo( 200, 1 );
-			Toolbar.$mainSurfaceContainer.stop().fadeTo( 200, 1, function() {
-				// Let Edit's JS know that its tertiary toolbar has changed, so that it
-				// can decide to e.g. increase its height to accomodate the changed
-				// content.
+			if (Toolbar.renderOwnToolbarContainer) {
+				var $textarea = Aloha.activeEditable.obj.closest('.aloha-textarea');
+				Aloha.jQuery('.edit-toolbar-container .edit-toolbar.tertiary .edit-toolgroup.wysiwyg')
+					.width($textarea.width() + 8)
+				Toolbar.$toolbarSurfaceContainer
+					.stop().fadeTo(200, 1)
+					.insertBefore($textarea);
+			}
+			else {
+				// Move the toolbar surface into our custom location.
+				jQuery( '.edit-toolgroup.wysiwyg-tabs:first' )
+					.append( Toolbar.$handlesSurfaceContainer.detach() );
 				jQuery( '.edit-toolgroup.wysiwyg:first' )
-					.trigger( 'edit-toolbar-tertiary-changed' );
-			});
+					.append( Toolbar.$panelsSurfaceContainer.detach() );
+
+				// Now show the appropriate content.
+				Toolbar.$handlesSurfaceContainer.stop().fadeTo( 200, 1 );
+				Toolbar.$panelsSurfaceContainer.stop().fadeTo( 200, 1, function() {
+					// Let Edit's JS know that its tertiary toolbar has changed, so that it
+					// can decide to e.g. increase its height to accomodate the changed
+					// content.
+					jQuery( '.edit-toolgroup.wysiwyg:first' )
+						.trigger( 'edit-toolbar-tertiary-changed' );
+				});
+			}
 		},
 
 		/**
 		 * Hides the toolbar.
 		 */
 		hide: function () {
-			Toolbar.$mainSurfaceContainer
-				.add( Toolbar.$tabsSurfaceContainer )
-				.stop().fadeOut( 200, function () {
-					// Move the toolbar surface into its original location again.
-					Toolbar.$mainSurfaceContainer
-						.detach()
-						.appendTo( 'body' );
-					Toolbar.$tabsSurfaceContainer
+			if (Toolbar.renderOwnToolbarContainer) {
+				Toolbar.$toolbarSurfaceContainer.stop().fadeOut( 200, function() {
+					Toolbar.$toolbarSurfaceContainer
 						.detach()
 						.appendTo( 'body' );
 				});
-
+			}
+			else {
+				Toolbar.$panelsSurfaceContainer
+					.add( Toolbar.$handlesSurfaceContainer )
+					.stop().fadeOut( 200, function () {
+						// Move the toolbar surface into its original location again.
+						Toolbar.$panelsSurfaceContainer
+							.detach()
+							.appendTo( 'body' );
+						Toolbar.$handlesSurfaceContainer
+							.detach()
+							.appendTo( 'body' );
+					});
+			}
 		}
 	});
 
@@ -128,9 +146,15 @@ define([
 		 * page.
 		 * @type {jQuery.<HTMLElement>}
 		 */
-		$mainSurfaceContainer: null,
+		$panelsSurfaceContainer: null,
 
-		$tabsSurfaceContainer: null,
+		$handlesSurfaceContainer: null,
+
+		/**
+		 * When this container is used, it will contain both the panels surface
+		 * container and the tabs surface container.
+		 */
+		$toolbarSurfaceContainer: null,
 
 		// @todo: get rid of this by fixing AE plug-ins that incorrectly assume this exists!
 		$surfaceContainer: $( [] ),
@@ -141,25 +165,53 @@ define([
 		 */
 		init: function () {
 			// TODO should use context.js to get the context element
-			Toolbar.$mainSurfaceContainer = $('<div>', {
+			Toolbar.$panelsSurfaceContainer = $('<div>', {
 				'class': 'drupal-aloha aloha-surface aloha-toolbar',
 				'unselectable': 'on'
 			}).hide();
 
-			Toolbar.$tabsSurfaceContainer = $('<div>', {
+			Toolbar.$handlesSurfaceContainer = $('<div>', {
 				'class': 'drupal-aloha aloha-surface aloha-toolbar-tabs',
 				'unselectable': 'on'
 			}).hide();
 
+			Toolbar.renderOwnToolbarContainer = Aloha.settings
+				&& Aloha.settings.DrupalUI
+				&& Aloha.settings.DrupalUI.renderOwnToolbarContainer === true;
+
+			if (Toolbar.renderOwnToolbarContainer) {
+				Toolbar.$toolbarSurfaceContainer = $('<div>', {
+					'class': 'edit-toolbar-container drupal-aloha aloha-surface aloha-toolbar-container',
+					'unselectable': 'on'
+				})
+				.append($('<div class="edit-toolbar primary" />'))
+				.append($('<div class="edit-toolbar secondary"><div class="wysiwyg-tabs edit-toolgroup edit-animate-slow edit-animate-delay-veryfast"></div></div>'))
+				.append($('<div class="edit-toolbar tertiary"><div class="wysiwyg edit-toolgroup edit-animate-slow edit-animate-delay-veryfast"></div></div>'))
+				.find('.wysiwyg-tabs').append(Toolbar.$handlesSurfaceContainer).end()
+				.find('.wysiwyg').append(Toolbar.$panelsSurfaceContainer).end()
+				.hide();
+				Toolbar.$handlesSurfaceContainer.show();
+				Toolbar.$panelsSurfaceContainer.show();
+			}
 
 			// In the built aloha.js, init will happend before the body has
 			// finished loading, so we have to defer appending the element.
 			$(function () {
-				Toolbar.$mainSurfaceContainer.appendTo('body');
-				Toolbar.$tabsSurfaceContainer.appendTo('body');
+				if (Toolbar.renderOwnToolbarContainer) {
+					Toolbar.$toolbarSurfaceContainer.appendTo('body');
+				}
+				else {
+					Toolbar.$panelsSurfaceContainer.appendTo('body');
+					Toolbar.$handlesSurfaceContainer.appendTo('body');
+				}
 			});
-			Surface.trackRange(Toolbar.$mainSurfaceContainer);
-			Surface.trackRange(Toolbar.$tabsSurfaceContainer);
+			if (Toolbar.renderOwnToolbarContainer) {
+				Surface.trackRange(Toolbar.$toolbarSurfaceContainer);
+			}
+			else {
+				Surface.trackRange(Toolbar.$panelsSurfaceContainer);
+				Surface.trackRange(Toolbar.$handlesSurfaceContainer);
+			}
 		},
 	});
 
