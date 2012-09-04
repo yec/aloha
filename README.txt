@@ -1,5 +1,16 @@
+Installation instructions
+-------------------------
+
+Install as any Drupal module (so also install its dependencies), with the
+following additional steps:
+
+* Configure the jQuery Update module to use jQuery 1.7, not jQuery 1.5.
+* Apply this core patch: http://drupal.org/files/1664602-1.patch
+
+
 TODO
 ----
+
 * Toggling between formats should impact the WYSIWYG editor.
 * Refactor + improve the UI to make it work well on the back-end instead of just
   in the Edit module. Yet still keep the ability to easily integrate it with
