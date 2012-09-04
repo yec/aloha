@@ -321,6 +321,8 @@ function aloha_library() {
       array('aloha', 'aloha.drupal-aloha'),
       // We're overriding the default UI, so depend on that default UI.
       array('aloha', 'aloha.common/ui'),
+      // Icons for the UI.
+      array('iconfonts', 'spark_icons'),
       // @todo: get rid of this dependency; we only need it for a few CSS styles.
       array('system', 'ui'),
     ),
