@@ -58,7 +58,7 @@ function aloha_library() {
     'css' => array(
       drupal_get_path('module', 'aloha') . '/css/aloha-drupal-ui-textareas.css',
       // @todo clean up
-      drupal_get_path('module', 'edit') . '/css/edit.css',
+      drupal_get_path('module', 'aloha') . '/css/edit.css',
     ),
     'dependencies' => array(
       array('aloha', 'aloha'),
