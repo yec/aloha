@@ -62,7 +62,7 @@ define( [
 
       Aloha.bind('aloha-editable-activated', function($event, params) {
         var allowedTagsList = Aloha.activeEditable.originalObj
-                              .closest('.aloha-allowed-tags')
+                              .closest('[data-allowed-tags]')
                               .data('allowed-tags');
 
         if (allowedTagsList) {

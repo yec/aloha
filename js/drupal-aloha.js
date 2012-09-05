@@ -72,14 +72,22 @@ Drupal.aloha = {
    *   The editable to which Aloha Editor should be applied. Can be a <textarea>
    *   or any HTML tag that contains HTML that should be edited (e.g. <div>,
    *   <article>, etc.) Should have a data-allowed-tags attribute (see README).
+   * @param allowedTags
+   *   An optional allowedTags string, which contains a comma-separated list of
+   *   allowed HTML tags. E.g.: "br,p" or "br,p,strong,em,h1,h2,h3,blockquote".
    */
-  attach: function($editable) {
+  attach: function($editable, allowedTags) {
     var id = $editable.attr('id');
     // If no ID is set on this editable, then generate one.
     if (typeof id === 'undefined' || id == '') {
       id = 'aloha-' + new Date().getTime();
       $editable.attr('id', id);
     }
+
+    if (typeof allowedTags === 'undefined') {
+      allowedTags = '';
+    }
+    $editable.attr('data-allowed-tags', allowedTags);
 
     Aloha.jQuery('#' + id).aloha();
 

@@ -365,10 +365,6 @@ function aloha_pre_render_text_format($element) {
   $format_id = $field['#format'];
 
   // Let Aloha Editor know the allowed tags.
-  // @todo This currently only supports *one* input format.
-  $allowed_tags = filter_get_allowed_tags_by_format($format_id);
-  $field['#attributes']['class'][] = 'aloha-allowed-tags';
-  $field['#attributes']['data-allowed-tags'] = implode(',', $allowed_tags);
   $filter_types = filter_get_filter_types_by_format($format_id);
   $unwanted_types = array(FILTER_TYPE_TRANSFORM_DOM, FILTER_TYPE_TRANSFORM_TEXT);
   if (count(array_intersect($unwanted_types, $filter_types))) {
@@ -378,9 +374,22 @@ function aloha_pre_render_text_format($element) {
     $field['#attributes']['class'][] = 'aloha-text-without-transformation-filters';
   }
 
-  // @todo: make the toggling between formats work
-  // foreach ($format_field['format']['#options'] as $format_id => $format_name) {
-  // }
+  // Gather all necessary metadata for all available formats for this field.
+  foreach ($format_field['format']['#options'] as $format_id => $format_name) {
+    $filter_types = filter_get_filter_types_by_format($format_id);
+    $allowed_tags = filter_get_allowed_tags_by_format($format_id);
+    $no_disallowed_tags = empty($allowed_tags);
+    $necessary_tags_allowed = $no_disallowed_tags || (in_array('br', $allowed_tags) && in_array('p', $allowed_tags));
+    $settings[$format_id] = array(
+      // Aloha Editor should only be enabled if no "HTML generator" filters are
+      // used in this format, and the <br> and <p> tags are allowed.
+      'status' => !in_array(FILTER_TYPE_HTML_GENERATOR, $filter_types)
+                  && $necessary_tags_allowed,
+      // Let Aloha Editor know which tags are allowed; it will reconfigure its
+      // UI to match that.
+      'allowedTags' => implode(',', $allowed_tags),
+    );
+  }
 
   // Use a hidden element for a single text format.
   if (!$format_field['format']['#access']) {
@@ -390,19 +399,33 @@ function aloha_pre_render_text_format($element) {
       '#value' => $format_id,
       '#attributes' => array(
         'id' => $format_field['format']['#id'],
-        'class' => array('wysiwyg-aloha'),
+        'class' => array('aloha-formatselector-for-textarea'),
       ),
       '#attached' => array(
         'library' => array(
           array('aloha', 'aloha-for-textareas'),
+        ),
+        'js' => array(
+          array(
+            'type' => 'setting',
+            'data' => array('aloha' => array('textareas' => array(
+              $format_field['format']['#id'] => $settings
+            ))),
+          ),
         ),
       ),
     );
   }
   // Otherwise, attach to text format selector.
   else {
-    $format_field['format']['#attributes']['class'][] = 'wysiwyg-aloha';
+    $format_field['format']['#attributes']['class'][] = 'aloha-formatselector-for-textarea';
     $format_field['format']['#attached']['library'][] = array('aloha', 'aloha-for-textareas');
+    $format_field['format']['#attached']['js'][] = array(
+      'type' => 'setting',
+      'data' => array('aloha' => array('textareas' => array(
+        $format_field['format']['#id'] => $settings
+      ))),
+    );
   }
 
   return $element;

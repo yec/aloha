@@ -65,9 +65,11 @@ function( Aloha,
 			}
 
 			// dynamic allowed tags drupal sprint
-			var dataAttr = Aloha.activeEditable.obj.closest('.edit-field').data();
-			if ( dataAttr && dataAttr.editAllowedTags ) {
-			    var allows = dataAttr.editAllowedTags.split(',');
+			var allowedTags = Aloha.activeEditable.originalObj
+				.closest('[data-allowed-tags]')
+				.data('allowed-tags');
+			if ( allowedTags ) {
+			    var allows = allowedTags.split(',');
 			    var config = {};
 			    config.elements = allows;
 

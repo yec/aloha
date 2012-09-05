@@ -6,12 +6,17 @@ following additional steps:
 
 * Configure the jQuery Update module to use jQuery 1.7, not jQuery 1.5.
 * Apply this core patch: http://drupal.org/files/1664602-1.patch
+* Configure a HTML input format WITHOUT the "Convert URLs into links"
+  (filter_url) and the "Convert line breaks into HTML" (filter_autop) filters.
+  I.e. you can just use Drupal's default "Filtered HTML" text format and disable
+  these.
+  Next, also make sure that the <br> and <p> tags are allowed if you're using
+  the "Limit allowed HTML tags" (filter_html) filter.
 
 
 TODO
 ----
 
-* Toggling between formats should impact the WYSIWYG editor.
 * Refactor + improve the UI to make it work well on the back-end instead of just
   in the Edit module. Yet still keep the ability to easily integrate it with
   Edit's in-place editing UI.
