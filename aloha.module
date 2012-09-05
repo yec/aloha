@@ -364,16 +364,6 @@ function aloha_pre_render_text_format($element) {
 
   $format_id = $field['#format'];
 
-  // Let Aloha Editor know the allowed tags.
-  $filter_types = filter_get_filter_types_by_format($format_id);
-  $unwanted_types = array(FILTER_TYPE_TRANSFORM_DOM, FILTER_TYPE_TRANSFORM_TEXT);
-  if (count(array_intersect($unwanted_types, $filter_types))) {
-    $field['#attributes']['class'][] = 'aloha-text-with-transformation-filters';
-  }
-  else {
-    $field['#attributes']['class'][] = 'aloha-text-without-transformation-filters';
-  }
-
   // Gather all necessary metadata for all available formats for this field.
   foreach ($format_field['format']['#options'] as $format_id => $format_name) {
     $filter_types = filter_get_filter_types_by_format($format_id);
