@@ -115,6 +115,10 @@ define(['jquery', 'jqueryui'], function($) {
 				}
 			}
 
+			button.button( 'widget' )
+				.find( '.ui-button-icon-secondary' )
+				.addClass( 'spark-icon' );
+
 			if (props.iconUrl) {
 				button.button('widget')
 					  .children('.ui-button-icon-primary')

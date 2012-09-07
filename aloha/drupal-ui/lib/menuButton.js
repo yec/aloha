@@ -32,15 +32,10 @@ define([
 	 *               this container will be closed.
 	 */
 	MenuButton.makeMenuButton = function (props) {
-		var wrapper = $('<div>'   , {'class': 'aloha-ui-menubutton-container'});
-		var expand  = Utils.makeButtonElement({'class': 'aloha-ui-menubutton-expand'});
+		var expand  = Utils.makeButtonElement({'class': 'aloha-ui-menubutton'});
 		var menu    = $('<ul>'    , {'class': 'aloha-ui-menubutton-menu'});
 		var action = null;
 		var buttonset = null;
-
-		if ($.browser.msie) {
-			wrapper.addClass('aloha-ui-menubutton-iehack');
-		}
 
 		if (props.click) {
 			action = Utils.makeButton(Utils.makeButtonElement({'class': 'aloha-ui-menubutton-action'}), props)
@@ -67,7 +62,7 @@ define([
 
 		expand
 			.click(function (){
-				wrapper.addClass('aloha-ui-menubutton-pressed');
+				expand.addClass('aloha-ui-menubutton-pressed');
 
 				if (props.siblingContainer) {
 					props.siblingContainer
@@ -85,36 +80,17 @@ define([
 				}
 
 				menu.show();
-				// THIS IS THE ONLY CHANGE TO THIS FILE.
-				// .position({
-				// 	my: 'left top',
-				// 	at: 'left bottom',
-				// 	of: action || expand
-				// });
-
-				// In order to prevent the floating menu from being partially
-				// covered by the ribbon, we use "position: relative" and an
-				// invisible border to pad the top of the document.  This
-				// throws off the offset to the menu button so we need to
-				// compensate in ordet to ensure that the menu is placed
-				// underneatht the menubutton.
-				// NB: For the time being we are not using the above fix.
-				/*
-				var target = action || expand;
-				var bodyOffset = parseInt($('body').css('border-top-width'), 10) || 0;
-				menu.css('top', target.height() + target.offset().top + bodyOffset);
-				*/
 
 				$(document).bind('click', function (event){
 					$(this).unbind(event);
 					menu.hide();
-					wrapper.removeClass('aloha-ui-menubutton-pressed');
+					expand.removeClass('aloha-ui-menubutton-pressed');
 				});
 
 				return false;
 			});
 
-		wrapper.append(buttonset || expand).append(menu);
+		expand.append(menu);
 
 		menu.append(makeNestedMenus(makeCloseHandler(menu), props.menu));
 
@@ -122,7 +98,7 @@ define([
 			'select': onSelect
 		});
 
-		return wrapper;
+		return expand;
 	};
 
 	function makeNestedMenus(parentCloseHandler, menu){

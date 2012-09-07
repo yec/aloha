@@ -55,11 +55,6 @@ function aloha_library() {
         ),
       )),
     ),
-    'css' => array(
-      drupal_get_path('module', 'aloha') . '/css/aloha-drupal-ui-textareas.css',
-      // @todo clean up
-      drupal_get_path('module', 'aloha') . '/css/edit.css',
-    ),
     'dependencies' => array(
       array('aloha', 'aloha'),
     )
@@ -136,10 +131,6 @@ function aloha_library() {
         ),
       )),
     ),
-    'css' => array(
-      $library_path . '/css/aloha.css',
-      drupal_get_path('module', 'aloha') . '/css/aloha-overrides.css',
-    ),
     'dependencies' => array(
       array('aloha', 'aloha.common/commands'),
       array('system', 'jquery'),
@@ -198,6 +189,9 @@ function aloha_library() {
         'plugins' => array('load' => array('common/align')),
       )),
     ),
+    'css' => array(
+      $library_path . '/plugins/common/align/css/align.css',
+    ),
   );
   $libraries['aloha.common/list'] = array(
     'title' => 'Aloha Editor plug-in: common/list',
@@ -228,6 +222,9 @@ function aloha_library() {
         'plugins' => array('load' => array('common/characterpicker')),
       )),
     ),
+    'css' => array(
+      $library_path . '/plugins/common/characterpicker/css/characterpicker.css',
+    ),
   );
   $libraries['aloha.common/paste'] = array(
     'title' => 'Aloha Editor plug-in: paste.',
@@ -246,6 +243,9 @@ function aloha_library() {
         'plugins' => array('load' => array('common/block')),
       )),
     ),
+    'css' => array(
+      $library_path . '/plugins/common/block/css/block.css',
+    ),
   );
   $libraries['aloha.common/link'] = array(
     'title' => 'Aloha Editor plug-in: link.',
@@ -254,6 +254,9 @@ function aloha_library() {
       aloha_plugin_js_settings(array(
         'plugins' => array('load' => array('common/link')),
       )),
+    ),
+    'css' => array(
+      $library_path . '/plugins/common/link/css/link.css',
     ),
   );
 
@@ -314,7 +317,9 @@ function aloha_library() {
       )),
     ),
     'css' => array(
-      drupal_get_path('module', 'aloha') . '/css/aloha-drupal-ui.css',
+      drupal_get_path('module', 'aloha') . '/css/aloha-drupal-ui.css' => array(
+        'weight' => 50,
+      ),
     ),
     'dependencies' => array(
       // Ensure the "drupal-aloha" bundle is registered.
@@ -323,8 +328,6 @@ function aloha_library() {
       array('aloha', 'aloha.common/ui'),
       // Icons for the UI.
       array('iconfonts', 'spark_icons'),
-      // @todo: get rid of this dependency; we only need it for a few CSS styles.
-      array('system', 'ui'),
     ),
   );
 

@@ -1,6 +1,37 @@
-/**
- * Custom Aloha UI.
- */
+/** Aloha Editor core. */
+
+.aloha-editable {
+  outline: none;
+}
+
+.aloha-textarea {
+  overflow: hidden;
+  border: 1px solid #AAA;
+  padding: 2px;
+  overflow: auto;
+}
+
+.aloha-toolbar :focus {
+  outline: none;
+}
+
+.aloha-toolbar * {
+ -moz-user-select: none;
+ -khtml-user-select: none;
+ -webkit-user-select: none;
+ -ms-user-select: none;
+ user-select: none;
+}
+
+.aloha-toolbar .ui-autocomplete-input {
+  -moz-user-select: text;
+  -khtml-user-select: text;
+  -webkit-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+
 
 
 /** General UI */
@@ -18,9 +49,10 @@
   opacity: 1;
 }
 
-.edit-toolgroup.wysiwyg button,
+.aloha-toolbar-handles,
 .aloha-drupal-ui-tab-handle,
-.aloha-drupal-ui-tab-handle * {
+.aloha-drupal-ui-tab-handle *,
+.aloha-toolbar-panels button {
   -webkit-transition: all .2s ease;
      -moz-transition: all .2s ease;
       -ie-transition: all .2s ease;
@@ -28,87 +60,104 @@
           transition: all .2s ease;
 }
 
+.aloha.ui-tooltip {
+  font-size: 10px;
+  line-height: 1.2em;
+  padding: 4px 6px;
+  border: 1px solid #777;
+  z-index: 999999;
+  -webkit-border-radius: 4px;
+  -khtml-border-radius:  4px;
+  -moz-border-radius:    4px;
+  border-radius:         4px;
+  position:absolute;
+  -o-box-shadow:      0 0 5px #AAA;
+  -moz-box-shadow:    0 0 5px #AAA;
+  -webkit-box-shadow: 0 0 5px #AAA;
+  box-shadow:         0 0 5px #AAA;
+  font-family: 'Droid sans', 'Lucida Grande', sans-serif;
+  background: #FFF;
+  color: #222;
+}
+
+
+
 
 /** Toolbar tabs **/
-.edit-toolgroup.wysiwyg-tabs {
-  padding-left: 0;
-  box-shadow: 0px 0px 1px 1px #0199FF, 0px 0px 3px 3px rgba(153, 153, 153, .5);
+.aloha-toolbar .aloha-toolbar-handles {
+  display: block;
+  height: 35px;
+  font-family: 'Droid sans', 'Lucida Grande', sans-serif;
 }
-.edit-toolgroup.wysiwyg-tabs ul {
+.aloha-toolbar .aloha-toolbar-handles ul {
+  display: inline-block;
+  float: left; /* LTR */
+  border: 1px solid #AAA;
+  border-right: none;
+  /* The border of the aloha-toolbar-panels will already be there. */
+  border-bottom: none;
   margin: 0;
   padding: 0;
 }
-.edit-toolgroup.wysiwyg-tabs ul li {
+.aloha-toolbar .aloha-toolbar-handles ul li {
   list-style: none;
-  float: left;
+  float: left; /* LTR */
 }
-
-.edit-toolgroup.wysiwyg-tabs ul li a {
+.aloha-toolbar .aloha-toolbar-handles ul li a {
+  display: block;
   color: #999;
   min-width: 40px;
   text-align: center;
-  padding: 8px 12px 6px;
-  border: none;
+  padding: 7px 12px;
   border-right: 1px solid #AAA;
-  margin: 0;
-  border-radius: 0;
+  text-decoration: none;
+  background-clip
 }
-
-.edit-toolgroup.wysiwyg-tabs ul li.aloha-drupal-ui-state-active a {
+.aloha-toolbar .aloha-toolbar-handles ul li.aloha-drupal-ui-state-active a {
   background-color: #eee;
   color: black;
 }
 
-.edit-toolgroup.wysiwyg-tabs ul li:first-child a {
-  border-left: none;
+
+
+
+/** Toolbar panels **/
+.aloha-toolbar-panels {
+  display: block;
+  height: 30px;
+  border: 1px solid #AAA;
+  border-bottom: none; /* The border of the AE textarea will already be there. */
+  color: #878787;
 }
 
-
-
-
-/** Toolbar **/
-.edit-toolgroup.wysiwyg {
-  display: inline-block;
-  /* Move the default toolgroup padding from the left to the right.*/
-  /* @todo: revise this */
-  padding-left: 0;
-  padding-right: 5px;
-  box-shadow: 0px 0px 1px 1px #0199FF, 0px 0px 3px 3px rgba(153, 153, 153, .5)
-}
-
-.edit-toolgroup.wysiwyg .aloha-ui-component-group div {
+.aloha-toolbar-panels .aloha-ui-component-group div {
   display:none;
 }
 
-.edit-toolgroup.wysiwyg button .ui-button-text {
+.aloha-toolbar-panels button .ui-button-text {
   position: absolute;
   left: -9999px;
   top: -9999px;
 }
 
-.edit-toolgroup.wysiwyg button .spark-icon {
+.aloha-toolbar-panels button .spark-icon {
   font-size: 15px;
 }
 
-.edit-toolgroup.wysiwyg button.ui-button {
-  border-radius: 0;
+.aloha-toolbar-panels button {
   border: none;
   background: inherit;
   color: inherit;
-  width: inherit;
-  margin: 0;
-
   width: 31px;
   height: 30px;
   padding: 5px 0 4px;
   display: block;
-  float: left;
-  border-right: 1px solid #AAA;
+  float: left; /* LTR */
+  border-right: 1px solid #AAA; /* LTR */
   text-align: center;
-  border-bottom: 1px solid #AAA;
 }
 
-.edit-toolgroup.wysiwyg {
+.aloha-toolbar-panels {
   font-size: 15px;
   color: rgb(135,135,135);
   background: -moz-linear-gradient(rgb(254,254,254) 0%,rgb(204,204,204) 100%);
@@ -117,20 +166,20 @@
   background: linear-gradient(rgb(254,254,254) 0%,rgb(204,204,204) 100%);
 }
 
-.edit-toolgroup.wysiwyg button.ui-state-hover {
+.aloha-toolbar-panels button.ui-state-hover {
   background: -moz-linear-gradient(rgb(255,255,255) 0%,rgb(221,221,221) 100%);
   background: -webkit-gradient(linear,color-stop(0, rgb(255,255,255)),color-stop(1, rgb(221,221,221)));
   background: -webkit-linear-gradient(rgb(255,255,255) 0%,rgb(221,221,221) 100%);
   background: linear-gradient(rgb(255,255,255) 0%,rgb(221,221,221) 100%);
 }
-.edit-toolgroup.wysiwyg button.aloha-button-active {
+.aloha-toolbar-panels button.aloha-button-active {
   color: #555;
   background: -moz-linear-gradient(rgb(170,170,170) 0%,rgb(238,238,238) 100%);
   background: -webkit-gradient(linear,color-stop(0, rgb(170,170,170)),color-stop(1, rgb(238,238,238)));
   background: -webkit-linear-gradient(rgb(170,170,170) 0%,rgb(238,238,238) 100%);
   background: linear-gradient(rgb(170,170,170) 0%,rgb(238,238,238) 100%);
 }
-.edit-toolgroup.wysiwyg button.ui-state-active {
+.aloha-toolbar-panels button.ui-state-active {
   color: #333;
   background: -moz-linear-gradient(rgb(136,136,136) 0%,rgb(204,204,204) 100%);
   background: -webkit-gradient(linear,color-stop(0, rgb(136,136,136)),color-stop(1, rgb(204,204,204)));
@@ -138,62 +187,148 @@
   background: linear-gradient(rgb(136,136,136) 0%,rgb(204,204,204) 100%);
 }
 
-.edit-toolgroup.wysiwyg .ui-autocomplete-input {
+.aloha-toolbar-panels .ui-autocomplete-input {
   font-size: .85em;
+  font-size: 2px 4px;
   padding: 2px 4px;
-  margin-left: 4px;
+  margin: 3px 4px 1px;
+  border: 1px solid #AAA;
+  height: 20px;
 }
+
+
 
 
 /* multisplit as dropdown (p/h1/h2/... dropdown) */
-/* @todo: this is just a boatload of HACKS! It also relies on clipping being disabled. */
-.edit-toolgroup.wysiwyg .aloha-ui-component-group .aloha-ui-menubutton-container {
-  display: block;
-}
-
-.edit-toolgroup.wysiwyg .aloha-ui-component-group .aloha-ui-menubutton-container .aloha-ui-menubutton-expand {
+.aloha-toolbar-panels button.aloha-ui-menubutton {
+  position: relative;
   width: 40px;
 }
 
-.edit-toolgroup.wysiwyg .aloha-ui-component-group .aloha-ui-menubutton-container .aloha-ui-menubutton-expand .ui-button-icon-primary {
-  float: left;
-  padding-left: 4px;
+.aloha-toolbar-panels button.aloha-ui-menubutton .ui-button-icon-primary,
+.aloha-toolbar-panels button.aloha-ui-menubutton .ui-button-icon-secondary {
+  float: left; /* LTR */
+  padding: 0 1px;
 }
 
-.edit-toolgroup.wysiwyg .aloha-ui-component-group .aloha-ui-menubutton-container .aloha-ui-menubutton-expand .ui-button-icon-secondary {
-  float: left;
+.aloha-toolbar-panels button.aloha-ui-menubutton .ui-button-icon-primary {
+  padding: 0 4px;
 }
 
-.edit-toolgroup.wysiwyg .aloha-ui-component-group .aloha-ui-menubutton-container .aloha-ui-menubutton-menu {
+.aloha-toolbar-panels button.aloha-ui-menubutton .ui-icon-triangle-1-s:before {
+  font-family: 'spark_icons';
+  content: "\e024";
+  speak: none;
+  font-size: 8px;
+  vertical-align: 30%;
+  padding: 0 1px;
+}
+
+.aloha-toolbar-panels button.aloha-ui-menubutton ul {
   background: #FFF;
   position: absolute;
-  top: 30px;
-  left: 278px;
+  top: 31px;
   width: 130px;
   box-shadow: 0 0 8px #999;
   margin: 0;
   padding: 0;
+  -webkit-border-radius: 4px;
+  -khtml-border-radius:  4px;
+  -moz-border-radius:    4px;
+  border-radius:         4px;
 }
 
-.edit-toolgroup.wysiwyg .aloha-ui-component-group .aloha-ui-menubutton-container .aloha-ui-menubutton-menu .ui-menu-item {
+.aloha-toolbar-panels button.aloha-ui-menubutton ul li {
   list-style: none;
-  text-align: left;
+  text-align: left; /* LTR */
 }
 
-.edit-toolgroup.wysiwyg .aloha-ui-component-group .aloha-ui-menubutton-container .aloha-ui-menubutton-menu .ui-menu-item a {
+.aloha-toolbar-panels button.aloha-ui-menubutton ul li a {
   display: block;
   padding: 4px 8px;
   color: black;
   text-decoration: none;
-  margin: 0;
-  text-decoration: none;
-  border: none;
-  background: none;
   font-size: 13px;
   width: 115px;
+  -webkit-border-radius: 4px;
+  -khtml-border-radius:  4px;
+  -moz-border-radius:    4px;
+  border-radius:         4px;
 }
 
-.edit-toolgroup.wysiwyg .aloha-ui-component-group .aloha-ui-menubutton-container .aloha-ui-menubutton-menu .ui-menu-item a.ui-state-focus {
+.aloha-toolbar-panels button.aloha-ui-menubutton ul li a.ui-state-focus {
   background-color: #4A92E4;
   color: white;
+}
+
+
+/* auto complete */
+.aloha .ui-autocomplete.ui-widget-content {
+  background: #FFF;
+  border: 1px solid #DDD;
+  box-shadow: 1px 2px 10px rgba(0,0,0,0.25);
+  padding: 3px;
+  -moz-border-radius:    0;
+  -khtml-border-radius:  0;
+  -webkit-border-radius: 0;
+  border-radius:         0;
+  list-style: none;
+  margin: 0;
+  display: block;
+  outline: none;
+  max-width: 322px;
+}
+
+.aloha .ui-autocomplete .ui-menu-item {
+  margin: 0;
+  padding: 0;
+  zoom: 1;
+  width: 100%;
+}
+
+.aloha .ui-autocomplete .ui-menu-item a {
+  text-decoration: none;
+  display: block;
+  padding: 2px .4em;
+  line-height: 1.5;
+  zoom: 1;
+  font-weight: normal;
+  text-align: left;
+  font-size: 12px;
+  -moz-border-radius:    0;
+  -khtml-border-radius:  0;
+  -webkit-border-radius: 0;
+  border-radius:         0;
+  border-color: transparent;
+  color: #222;
+}
+
+.aloha .ui-autocomplete .ui-menu-item a.ui-state-focus {
+  background: #3B73D7;
+  color: #FFF;
+}
+
+
+
+
+/**
+ * Custom UI for common/block.
+ */
+
+/* @todo: Temporarily disable Aloha Blocks' handles, because the CaptionedImage
+          plug-in can't deal yet with dragging images into an alignment. */
+.aloha-block-handle {
+  background: none;
+  border: none;
+}
+
+.aloha-editable-active .aloha-block,
+.aloha-block.aloha-block-highlighted {
+  box-shadow: none;
+}
+
+.aloha-block.aloha-block-active,
+.aloha-block.aloha-block-active:hover,
+.aloha-image-box-active {
+  box-shadow: 0px 0px 1px 1px #0199FF;
 }

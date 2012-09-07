@@ -83,12 +83,12 @@ define([
 
       // Set the text of the dropdown button to the newly selected value.
       var name = (typeof index === 'string') ? index : this.buttons[index].name;
-      var $context = jQuery('.aloha-ui-menubutton-expand', this.element)
-      jQuery('.ui-button-icon-primary', $context).remove();
+
+      jQuery('.ui-button-icon-primary', this.element).remove();
       jQuery('<span>')
-        .addClass('ui-button-icon-primary')
+        .addClass('ui-button-icon-primary spark-icon')
         .attr('data-icon', Utils.getDataIconForClassName(name))
-      .prependTo($context);
+      .prependTo(this.element);
     },
 
     /**

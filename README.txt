@@ -17,9 +17,6 @@ following additional steps:
 TODO
 ----
 
-* Refactor + improve the UI to make it work well on the back-end instead of just
-  in the Edit module. Yet still keep the ability to easily integrate it with
-  Edit's in-place editing UI.
 * BUG INTRODUCED: unable to align captioned images.
 * Improve our build of Aloha Editor, so that we can leverage Drupal's
   hook_library() even better.

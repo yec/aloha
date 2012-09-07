@@ -1,0 +1,39 @@
+/**
+ * @file
+ * RTL styles for Drupal's Aloha Editor UI.
+ */
+
+
+
+
+/** Toolbar tabs **/
+.aloha-toolbar .aloha-toolbar-handles ul {
+  float: right;
+}
+.aloha-toolbar .aloha-toolbar-handles ul {
+  float: right;
+}
+.aloha-toolbar .aloha-toolbar-handles ul li {
+  float: right;
+}
+
+
+
+/** Toolbar panels **/
+.aloha-toolbar-panels button {
+  float: right;
+  border-right: none;
+  border-left: 1px solid #AAA;
+}
+
+
+
+
+/* multisplit as dropdown (p/h1/h2/... dropdown) */
+.aloha-toolbar-panels button.aloha-ui-menubutton .ui-button-icon-primary,
+.aloha-toolbar-panels button.aloha-ui-menubutton .ui-button-icon-secondary {
+  float: right;
+}
+.aloha-toolbar-panels button.aloha-ui-menubutton ul li {
+  text-align: right;
+}

@@ -166,12 +166,12 @@ define([
 		init: function () {
 			// TODO should use context.js to get the context element
 			Toolbar.$panelsSurfaceContainer = $('<div>', {
-				'class': 'drupal-aloha aloha-surface aloha-toolbar',
+				'class': 'aloha-surface aloha-toolbar-panels',
 				'unselectable': 'on'
 			}).hide();
 
 			Toolbar.$handlesSurfaceContainer = $('<div>', {
-				'class': 'drupal-aloha aloha-surface aloha-toolbar-tabs',
+				'class': 'aloha-surface aloha-toolbar-handles',
 				'unselectable': 'on'
 			}).hide();
 
@@ -181,17 +181,14 @@ define([
 
 			if (Toolbar.renderOwnToolbarContainer) {
 				Toolbar.$toolbarSurfaceContainer = $('<div>', {
-					'class': 'edit-toolbar-container drupal-aloha aloha-surface aloha-toolbar-container',
+					'class': 'aloha-surface aloha-toolbar',
 					'unselectable': 'on'
 				})
-				.append($('<div class="edit-toolbar primary" />'))
-				.append($('<div class="edit-toolbar secondary"><div class="wysiwyg-tabs edit-toolgroup edit-animate-slow edit-animate-delay-veryfast"></div></div>'))
-				.append($('<div class="edit-toolbar tertiary"><div class="wysiwyg edit-toolgroup edit-animate-slow edit-animate-delay-veryfast"></div></div>'))
-				.find('.wysiwyg-tabs').append(Toolbar.$handlesSurfaceContainer).end()
-				.find('.wysiwyg').append(Toolbar.$panelsSurfaceContainer).end()
+				.append(Toolbar.$handlesSurfaceContainer)
+				.append(Toolbar.$panelsSurfaceContainer)
 				.hide();
-				Toolbar.$handlesSurfaceContainer.show();
-				Toolbar.$panelsSurfaceContainer.show();
+				Toolbar.$handlesSurfaceContainer.removeClass('aloha-surface').show();
+				Toolbar.$panelsSurfaceContainer.removeClass('aloha-surface').show();
 			}
 
 			// In the built aloha.js, init will happend before the body has
