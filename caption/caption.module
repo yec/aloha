@@ -187,9 +187,14 @@ function caption_process_filter($text, $filter, $format, $langcode, $cache, $cac
 }
 
 /**
- * Determine the width of the img/object that is being captioned.
+ * Determines the width of the image tag that is being captioned.
  *
- * @see _caption_filter_get_width().
+ * @param DOMNode $image_node
+ *   A DOMNode for an image tag from a DOMDocument. @see filter_dom_load().
+ *
+ * @return string
+ *   The CSS declaration for the image's width, typically a number with "px"
+ *   appended to it; possibly "auto" or even a percentage.
  */
 function _caption_get_width(DOMNode $image_node) {
   // Retrieve the width attribute, or calculate the width directly from
@@ -251,14 +256,18 @@ function caption_theme() {
 }
 
 /**
- * @ingroup themeable
- * @{
- */
-
-/**
- * Theme function for a captioned image.
+ * Returns HTML for a captioned image.
+ *
+ * @param $variables
+ *   An associative array containing:
+ *   - image: The complete image tag whose image is being captioned.
+ *   - caption: The caption text, or NULL.
+ *   - align: The alignment: 'left', 'center', 'right' or NULL.
+ *   - width: The width of the image.
  *
  * @see caption.js/Drupal.theme.prototype.caption()
+ *
+ * @ingroup themeable
  */
 function theme_caption($variables) {
   $image   = $variables['image'];
@@ -271,7 +280,3 @@ function theme_caption($variables) {
          '<div class="caption-text">' . $caption . '</div>' .
          '</div></div>';
 }
-
-/**
- * @} End of "ingroup themeable".
- */

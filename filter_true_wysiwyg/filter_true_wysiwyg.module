@@ -205,12 +205,11 @@ function check_markup2($text, $format_id = NULL, $langcode = '', $cache = FALSE,
 /**
  * Retrieves all filter types that are used in a given text format.
  *
- * @param $format_id
+ * @param string $format_id
  *   A text format ID.
  * @return array
  *   All filter types used by filters of a given text format.
  */
-//edit_wysiwyg_format_get_filter_classifications
 function filter_get_filter_types_by_format($format_id) {
   $filter_types = array();
 
@@ -243,13 +242,12 @@ function filter_get_filter_types_by_format($format_id) {
 /**
  * Retrieve all tags that are allowed by a given text format.
  *
- * @param $format_id
+ * @param string $format_id
  *   A text format ID.
- * @return
+ * @return array
  *   An array of HTML tags (in "p", not "<p>" format) that are allowed by the
  *   text format.
  */
-//edit_wysiwyg_analyze_allowed_tags
 function filter_get_allowed_tags_by_format($format_id) {
   $filters = filter_list_format($format_id);
 

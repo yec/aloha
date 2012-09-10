@@ -19,7 +19,7 @@ define('ALOHA_VERSION', "custom build: 0.21.2 + patches"); // @todo: establish a
 
 
 /**
- * Implements hook_menu()
+ * Implements hook_menu().
  */
 function aloha_menu() {
   $items = array();
@@ -342,9 +342,10 @@ function aloha_element_info_alter(&$types) {
 }
 
 /**
- * Process a text format widget to load and attach Aloha Editor.
+ * Render API callback: processes a text format widget to load and attach Aloha
+ * Editor.
  *
- * The element's #id is used as reference to attach Aloha Editor.
+ * Uses the element's #id as reference to attach Aloha Editor.
  */
 function aloha_pre_render_text_format($element) {
   // filter_process_format() copies properties to the expanded 'value' child
