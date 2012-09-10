@@ -1,25 +1,33 @@
-(function ($) {
+(function ($, Drupal) {
+
+"use strict";
 
 Drupal.behaviors.alohaTextareas = {
-  attach: function(context) {
-    Drupal.aloha.init(function() {
+  attach: function (context) {
+    var $context = $(context);
+    Drupal.aloha.init(function () {
       var first = true;
-      $('.aloha-formatselector-for-textarea', context).once('alohaTextareas', function() {
+      $context.find('.aloha-formatselector-for-textarea').once('alohaTextareas', function () {
         if (!this.id || typeof Drupal.settings.aloha.textareas[this.id] === 'undefined') {
           return;
         }
         var $this = $(this);
         var params = Drupal.settings.aloha.textareas[this.id];
-        for (var format in params) {
-          params[format].format = format;
-          params[format].trigger = this.id;
-          params[format].field = params.field;
+        var format;
+        for (format in params) {
+          if (params.hasOwnProperty(format)) {
+            $.extend(params[format], {
+              format: format,
+              trigger: this.id,
+              field: params.field
+            });
+          }
         }
-        var format = this.value;
-        var $editable = $('#' + params[format].field, context);
+        format = this.value;
+        var $editable = $context.find('#' + params[format].field);
 
         // Directly attach this editor, if the input format is enabled.
-        if (params[format].status) {;
+        if (params[format].status) {
           Drupal.aloha.attach($editable, params[format].allowedTags);
 
           // Activate the first Aloha Editor.
@@ -31,7 +39,7 @@ Drupal.behaviors.alohaTextareas = {
 
         // React appropriately to changed input formats.
         if ($this.is('select')) {
-          $this.bind('change.aloha', function() {
+          $this.bind('change.aloha', function () {
             // NOTE: we cannot optimize this to *not* detach and reattach Aloha
             // Editor; otherwise it would not pick up the changed
             // data-allowed-tags attribute.
@@ -45,7 +53,7 @@ Drupal.behaviors.alohaTextareas = {
         }
 
         // Detach Aloha Editor when the containing form is submitted.
-        $editable.parents('form').submit(function(event) {
+        $editable.parents('form').submit(function (event) {
           // Do not detach if the event was cancelled.
           if (event.isDefaultPrevented()) {
             return;
@@ -57,4 +65,4 @@ Drupal.behaviors.alohaTextareas = {
   }
 };
 
-})(jQuery);
+})(jQuery, Drupal);

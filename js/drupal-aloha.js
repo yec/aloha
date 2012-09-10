@@ -8,7 +8,7 @@ Drupal.aloha = {
   state: {
     initializing: false,
     ready: false,
-    initCallbacks: [],
+    initCallbacks: []
   },
 
   /**
@@ -21,12 +21,12 @@ Drupal.aloha = {
    *   If Aloha Editor is already ready when you call this, the callback will be
    *   called immediately.
    */
-  init: function(callback) {
+  init: function (callback) {
     // If Aloha is ready, immediately execute the callback. If it is,
     // initializing then add it to the list of init callbacks, all of which will
     // be called as soon as Aloha is ready.
     if (Drupal.aloha.state.initializing) {
-      if (typeof callback == "function") {
+      if (typeof callback === "function") {
         if (Drupal.aloha.state.ready) {
           callback();
         }
@@ -47,10 +47,12 @@ Drupal.aloha = {
     // Give all Drupal modules' JS the opportunity to alter Aloha Editor's
     // settings, before Aloha Editor gets initialized.
     jQuery(document).trigger('aloha-before-init', [Aloha.settings]);
-    setTimeout(function() {
+    // Use a setTimeout to make sure this code will run after all event
+    // handlers have been run.
+    setTimeout(function () {
       Aloha.settings.plugins.load = Aloha.settings.plugins.load.join(',');
       Aloha.deferInit();
-      Aloha.ready(function() {
+      Aloha.ready(function () {
         Drupal.aloha.state.ready = true;
 
         // Execute all queued init callbacks.
@@ -61,7 +63,7 @@ Drupal.aloha = {
 
         // Also fire an event.
         jQuery(document).trigger('aloha-ready');
-      })
+      });
     }, 0);
   },
 
@@ -76,10 +78,10 @@ Drupal.aloha = {
    *   An optional allowedTags string, which contains a comma-separated list of
    *   allowed HTML tags. E.g.: "br,p" or "br,p,strong,em,h1,h2,h3,blockquote".
    */
-  attach: function($editable, allowedTags) {
+  attach: function ($editable, allowedTags) {
     var id = $editable.attr('id');
     // If no ID is set on this editable, then generate one.
-    if (typeof id === 'undefined' || id == '') {
+    if (typeof id === 'undefined' || id === '') {
       id = 'aloha-' + new Date().getTime();
       $editable.attr('id', id);
     }
@@ -92,8 +94,8 @@ Drupal.aloha = {
     Aloha.jQuery('#' + id).aloha();
 
     // Trigger 'aloha-content-changed' event whenever content has changed.
-    Aloha.bind('aloha-smart-content-changed.aloha', function(event, ae) {
-      if (ae.editable.obj[0].id == id && ae.triggerType !== 'blur') {
+    Aloha.bind('aloha-smart-content-changed.aloha', function (event, ae) {
+      if (ae.editable.obj[0].id === id && ae.triggerType !== 'blur') {
         $editable.trigger('aloha-content-changed');
       }
     });
@@ -105,7 +107,7 @@ Drupal.aloha = {
    * @param $editable
    *   The editable on which Aloha Editor should be activated.
    */
-  activate: function($editable) {
+  activate: function ($editable) {
     var id = $editable.attr('id');
 
     // If the original editable is a textarea, Aloha Editor will automatically
@@ -126,13 +128,13 @@ Drupal.aloha = {
    *   The editable from which Aloha Editor should be detached. This will also
    *   cause Aloha Editor's additional mark-up to be cleaned up.
    */
-  detach: function($editable) {
+  detach: function ($editable) {
     var id = $editable.attr('id');
 
     Aloha.jQuery('#' + id)
-    .unbind('aloha-smart-content-changed.aloha')
-    .mahalo();
-    if (id.match(/^aloha-\d+$/) != null) {
+      .unbind('aloha-smart-content-changed.aloha')
+      .mahalo();
+    if (id.match(/^aloha-\d+$/) !== null) {
       $editable.removeAttr('id');
     }
   }
@@ -140,4 +142,4 @@ Drupal.aloha = {
 
 // As soon as the DOM is ready, migrate Aloha.settings from Drupal.settings and
 // then immediately initialize Aloha Editor.
-jQuery(function() { Drupal.aloha.init(); });
+jQuery(function () { Drupal.aloha.init(); });
