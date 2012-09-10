@@ -3,6 +3,8 @@
  * Provides the ability to render image captions in JavaScript.
  */
 
+(function ($, Drupal, window, document, undefined) {
+
 // Just before the initialization of Aloha Editor, set the CaptionedImage
 // plugin's render method.
 jQuery(document).bind('aloha-before-init', function(e, settings) {
@@ -43,3 +45,5 @@ Drupal.theme.prototype.caption = function(variables) {
          '<div class="caption-text">' + caption + '</div>' +
          '</div></div>';
 };
+
+})(jQuery, Drupal, this, this.document);

@@ -3,6 +3,8 @@
  * A simple interface to interact with Aloha Editor.
  */
 
+(function ($, Drupal, Aloha, window, document, undefined) {
+
 Drupal.aloha = {
 
   state: {
@@ -46,7 +48,7 @@ Drupal.aloha = {
 
     // Give all Drupal modules' JS the opportunity to alter Aloha Editor's
     // settings, before Aloha Editor gets initialized.
-    jQuery(document).trigger('aloha-before-init', [Aloha.settings]);
+    $(document).trigger('aloha-before-init', [Aloha.settings]);
     // Use a setTimeout to make sure this code will run after all event
     // handlers have been run.
     setTimeout(function () {
@@ -62,7 +64,7 @@ Drupal.aloha = {
         }
 
         // Also fire an event.
-        jQuery(document).trigger('aloha-ready');
+        $(document).trigger('aloha-ready');
       });
     }, 0);
   },
@@ -142,4 +144,6 @@ Drupal.aloha = {
 
 // As soon as the DOM is ready, migrate Aloha.settings from Drupal.settings and
 // then immediately initialize Aloha Editor.
-jQuery(function () { Drupal.aloha.init(); });
+$(function () { Drupal.aloha.init(); });
+
+})(jQuery, Drupal, Aloha, this, this.document);
