@@ -5,14 +5,7 @@ define([
   'ui/button',
   'ui/utils',
   'ui/menuButton'
-], function (
-  $,
-  Surface,
-  Component,
-  Button,
-  Utils,
-  MenuButton
-) {
+], function ($, Surface, Component, Button, Utils, MenuButton) {
   'use strict';
 
   /**
@@ -39,17 +32,17 @@ define([
 
       // The options that the dropdown button will offer.
       var menuItems = [];
-      jQuery.each(this.buttons, function(i, button) {
+      jQuery.each(this.buttons, function (i, button) {
         var text = button.name.toUpperCase();
 
         // @todo: this is a quick hack to remove the "remove formatting" button
         // from the p/h1/... dropdown; we want it to live elsewhere.
-        if (button.name == "removeFormat") {
-           return;
+        if (button.name === "removeFormat") {
+          return;
         }
 
         // @todo: fix this upstream; this is a typo in AE.
-        if (button.tooltip == 'Pre formated text') {
+        if (button.tooltip === 'Pre formated text') {
           button.tooltip = "Preformatted text";
         }
 
@@ -76,8 +69,8 @@ define([
       Surface.trackRange(this.element);
     },
 
-    setActiveButton: function(index) {
-      if (index == null) {
+    setActiveButton: function (index) {
+      if (index === null) {
         return;
       }
 
@@ -88,7 +81,7 @@ define([
       jQuery('<span>')
         .addClass('ui-button-icon-primary spark-icon')
         .attr('data-icon', Utils.getDataIconForClassName(name))
-      .prependTo(this.element);
+        .prependTo(this.element);
     },
 
     /**
