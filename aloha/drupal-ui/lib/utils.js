@@ -95,13 +95,10 @@ define(['jquery', 'jqueryui'], function ($) {
 
         // Find all "aloha-(icon|image)-<something>" classes, and remember the
         // most specific match.
-        match = re.exec(classString);
-        if (match) {
-          do {
-            className = match[1];
-            classNames.push(className);
-            match = re.exec(classString);
-          } while (match);
+        /*jshint boss: true */
+        while (match = re.exec(classString)) {
+          className = match[1];
+          classNames.push(className);
         }
 
         // If any match, override the icon.
