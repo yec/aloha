@@ -6,7 +6,13 @@
  */
 
 /**
- * Page callback; Drupal link repository look-up.
+ * Page callback: looks up relevant links in the site given a keyword.
+ *
+ * @param string $lookup
+ *   The keyword to look up relevant links for.
+ *
+ * @return string
+ *   A JSON-encoded result.
  */
 function aloha_repository_link($lookup = false) {
   $lookup = check_plain($lookup);
