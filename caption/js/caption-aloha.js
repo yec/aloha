@@ -5,9 +5,11 @@
 
 (function ($, Drupal, window, document, undefined) {
 
+"use strict";
+
 // Just before the initialization of Aloha Editor, set the CaptionedImage
 // plugin's render method.
-jQuery(document).bind('aloha-before-init', function(e, settings) {
+$(document).bind('aloha-before-init', function(e, settings) {
   settings.plugins.captionedImage.render = Drupal.caption.render;
 });
 

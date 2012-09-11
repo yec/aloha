@@ -5,6 +5,8 @@
 
 (function ($, Drupal, Aloha, window, document, undefined) {
 
+"use strict";
+
 Drupal.aloha = {
 
   state: {
