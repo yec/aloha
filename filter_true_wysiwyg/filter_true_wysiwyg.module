@@ -86,7 +86,7 @@ define('FILTER_TYPE_TRANSFORM_TEXT', 'text transformation');
  */
 function filter_true_wysiwyg_filter_info_alter(&$info) {
   // There's only one filter in core that limits the allowed tags.
-  $info['filter_html']['allowed tags'] = 'allowed_html';
+  $info['filter_html']['allowed tags setting'] = 'allowed_html';
 
   /* CORE */
   if (module_exists('php')) {
@@ -120,9 +120,15 @@ function filter_true_wysiwyg_filter_info_alter(&$info) {
  * Identical to check_markup() with the exception of the new ability to *skip*
  * filters that match any filter type in a list of filter types
  *
+ * @param array $filter_types_to_skip
+ *   An array of filter types to skip, or the empty array (default) to skip no
+ *   filter types. All of the format's filters will be applied, except for
+ *   filters of the types that are marked to be skipped. FILTER_TYPE_SECURITY is
+ *   the only type that cannot be skipped.
+ *
  * @see aloha.module/aloha_filter_info_alter()
  */
-function check_markup2($text, $format_id = NULL, $langcode = '', $cache = FALSE, $filter_types_to_skip = FALSE) {
+function check_markup2($text, $format_id = NULL, $langcode = '', $cache = FALSE, $filter_types_to_skip = array()) {
   if (!isset($format_id)) {
     $format_id = filter_fallback_format();
   }
@@ -130,6 +136,11 @@ function check_markup2($text, $format_id = NULL, $langcode = '', $cache = FALSE,
   if (!$format = filter_format_load($format_id)) {
     watchdog('filter', 'Missing text format: %format.', array('%format' => $format_id), WATCHDOG_ALERT);
     return '';
+  }
+
+  // Prevent FILTER_TYPE_SECURITY from being skipped.
+  if (in_array(FILTER_TYPE_SECURITY, $filter_types_to_skip)) {
+    $filter_types_to_skip = array_diff($filter_types_to_skip, array(FILTER_TYPE_SECURITY));
   }
 
   // When certain filters should be skipped, don't perform caching.
@@ -158,7 +169,7 @@ function check_markup2($text, $format_id = NULL, $langcode = '', $cache = FALSE,
   // Give filters the chance to escape HTML-like data such as code or formulas.
   foreach ($filters as $name => $filter) {
     // If necessary, skip filters of a certain type.
-    if ($filter->status && $filter_types_to_skip && in_array($filter_info[$name]['type'], $filter_types_to_skip)) {
+    if ($filter->status && $filter_types_to_skip && isset($filter_info[$name]['type']) && in_array($filter_info[$name]['type'], $filter_types_to_skip)) {
       continue;
     }
     if ($filter->status && isset($filter_info[$name]['prepare callback']) && function_exists($filter_info[$name]['prepare callback'])) {
@@ -170,7 +181,7 @@ function check_markup2($text, $format_id = NULL, $langcode = '', $cache = FALSE,
   // Perform filtering.
   foreach ($filters as $name => $filter) {
     // If necessary, skip filters of a certain type.
-    if ($filter->status && $filter_types_to_skip && in_array($filter_info[$name]['type'], $filter_types_to_skip)) {
+    if ($filter->status && $filter_types_to_skip && isset($filter_info[$name]['type']) && in_array($filter_info[$name]['type'], $filter_types_to_skip)) {
       continue;
     }
     if ($filter->status && isset($filter_info[$name]['process callback']) && function_exists($filter_info[$name]['process callback'])) {
@@ -217,7 +228,7 @@ function filter_get_filter_types_by_format($format_id) {
 
   // Ignore filters that are disabled.
   $filters = array_filter($filters, function($filter) {
-    return $filter->status == 1;
+    return $filter->status;
   });
 
   $filters_metadata = filter_get_filters();
@@ -244,32 +255,55 @@ function filter_get_filter_types_by_format($format_id) {
  *
  * @param string $format_id
  *   A text format ID.
- * @return array
+ * @return array|TRUE
  *   An array of HTML tags (in "p", not "<p>" format) that are allowed by the
- *   text format.
+ *   text format. The empty array implies no tags are allowed. TRUE implies all
+ *   tags are allowed.
  */
 function filter_get_allowed_tags_by_format($format_id) {
   $filters = filter_list_format($format_id);
 
-  // Ignore filters that are disabled.
+  // Ignore filters that are disabled or don't have an "allowed tags" setting.
   $filters = array_filter($filters, function($filter) {
-    return $filter->status == 1;
-  });
-
-  $allowed_tags = array_reduce($filters, function($result, $filter) {
-    $allowed_tags = array();
-    $filters_metadata = filter_get_filters();
-
-    if (!empty($filters_metadata[$filter->name]['allowed tags'])) {
-      $setting_name = $filters_metadata[$filter->name]['allowed tags'];
-      $allowed_tags = explode(' ', $filter->settings[$setting_name]);
-      $allowed_tags = str_replace(array('<', '>'), array('', ''), $allowed_tags);
+    if (!$filter->status) {
+      return FALSE;
     }
 
-    return array_merge($result, $allowed_tags);
-  }, array());
+    $filters_metadata = filter_get_filters();
+    if (!empty($filters_metadata[$filter->name]['allowed tags setting'])) {
+      return TRUE;
+    }
+  });
 
-  return $allowed_tags;
+  if (empty($filters)) {
+    return TRUE;
+  }
+  else {
+    // From the set of remaining filters (they were filtered by array_filter()
+    // above), collect the list of tags that is allowed by *all* filters, i.e.
+    // the intersection of all allowed tags.
+    $allowed_tags = array_reduce($filters, function($result, $filter) {
+      $allowed_tags = array();
+      $filters_metadata = filter_get_filters();
+
+      $setting_name = $filters_metadata[$filter->name]['allowed tags setting'];
+      $allowed_tags = preg_split('/\s+|<|>/', $filter->settings[$setting_name], -1, PREG_SPLIT_NO_EMPTY);
+
+      // The first filter with an "allowed tags" setting provides the initial
+      // set.
+      if (!isset($result)) {
+        return $allowed_tags;
+      }
+      // Subsequent filters with an "allowed tags" setting must be intersected
+      // with the existing set, to ensure we only end up with the tags that are
+      // allowed by *all* filters with an "allowed tags" setting.
+      else {
+        return array_intersect($result, $allowed_tags);
+      }
+    }, NULL);
+
+    return $allowed_tags;
+  }
 }
 
 /**

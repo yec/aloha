@@ -372,7 +372,7 @@ function aloha_pre_render_text_format($element) {
   foreach ($format_field['format']['#options'] as $format_id => $format_name) {
     $filter_types = filter_get_filter_types_by_format($format_id);
     $allowed_tags = filter_get_allowed_tags_by_format($format_id);
-    $no_disallowed_tags = empty($allowed_tags);
+    $no_disallowed_tags = $allowed_tags === TRUE;
     $necessary_tags_allowed = $no_disallowed_tags || (in_array('br', $allowed_tags) && in_array('p', $allowed_tags));
     $settings[$format_id] = array(
       // Aloha Editor should only be enabled if no "HTML generator" filters are
@@ -381,7 +381,7 @@ function aloha_pre_render_text_format($element) {
                   && $necessary_tags_allowed,
       // Let Aloha Editor know which tags are allowed; it will reconfigure its
       // UI to match that.
-      'allowedTags' => implode(',', $allowed_tags),
+      'allowedTags' => implode(',', $no_disallowed_tags ? array() : $allowed_tags),
     );
   }
 
