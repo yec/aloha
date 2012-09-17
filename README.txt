@@ -33,22 +33,25 @@ Rationales
 Loading Aloha Editor plug-ins
 -----------------------------
 
-Follow these steps:
-1) Add a dependency on the "aloha" module if your module is useless without it.
-2) Implement hook_library(). Use a name such as "mymodule.aloha". Add a
-   dependency on each Aloha Editor plug-in that you need. E.g. if you're adding
-   the "extra/captioned-image" plug-in that ships with Aloha Editor, you'll want
-   to specify a dependency on "aloha.common/block", which is part of the "aloha"
-   module.
-3) To ensure that the plug-ins you're trying to load actually get loaded, you
+1) Implement hook_library(). Use a name such as "aloha.mymodule.pluginname".
+   Add a dependency on each Aloha Editor plug-in that you need.
+
+   E.g. if you're adding the "extra/captioned-image" plug-in that ships with
+   Aloha Editor, you'll want to specify a dependency on "aloha.common/block",
+   which is part of the "aloha" module.
+
+2) To ensure that the plug-ins you're trying to load actually get loaded, you
    have to send the necessary settings to Aloha (i.e. they have to end up in
-   Aloha.settings). To do this, specify a "JavaScript setting" in your library,
-   you can use the public API function aloha_plugin_js_settings() to simplify
-   this.
-4) Finally, to ensure that Drupal will make your Aloha Editor plug-in available
+   Aloha.settings). To do this, specify JavaScript settings for your library.
+
+3) Finally, to ensure that Drupal will make your Aloha Editor plug-in available
    wherever Aloha Editor is available, you should implement hook_library_alter()
    and whenever $module == "aloha", you can add your dependency like so:
-     $libraries['aloha']['dependencies'][] = array('mymodule', 'mymodule.aloha');
+
+     $libraries['aloha']['dependencies'][] = array('mymodule', 'aloha.mymodule.pluginname');
+
+4) Add a dependency on the "aloha" module if your module is useless without it.
+
 5) For more details, see the ASCII diagram and aloha_library().
 
 

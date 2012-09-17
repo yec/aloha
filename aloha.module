@@ -15,22 +15,20 @@
  *        AE.
  */
 
-define('ALOHA_VERSION', "custom build: 0.21.2 + patches"); // @todo: establish a versioning scheme for our custom build
-
+// @todo Establish a versioning scheme for our custom build.
+const ALOHA_VERSION = 'custom build: 0.21.2 + patches';
 
 /**
  * Implements hook_menu().
  */
 function aloha_menu() {
-  $items = array();
   $items['aloha/repository/link/%'] = array(
-    'page callback'    => 'aloha_repository_link',
-    'page arguments'   => array(3),
+    'page callback' => 'aloha_repository_link',
+    'page arguments' => array(3),
     'access arguments' => array('access content'),
-    'type'             => MENU_CALLBACK,
-    'file'             => 'includes/pages.inc',
+    'type' => MENU_CALLBACK,
+    'file' => 'includes/pages.inc',
   );
-
   return $items;
 }
 
@@ -38,15 +36,16 @@ function aloha_menu() {
  * Implements hook_library().
  */
 function aloha_library() {
+  $module_path = drupal_get_path('module', 'aloha');
   // Location of Aloha Editor build we're using and the main JS file within it.
-  $library_path = drupal_get_path('module', 'aloha') . '/build/alohaeditor';
+  $library_path = $module_path . '/build/alohaeditor';
   $library_file = "aloha.js";
 
   $libraries['aloha-for-textareas'] = array(
     'title' => 'Drupal behavior to enable Aloha Editor WYSIWYG editing on textareas.',
     'version' => VERSION,
     'js' => array(
-      drupal_get_path('module', 'aloha') . '/js/aloha.textareas.js' => array(),
+      $module_path . '/js/aloha.textareas.js' => array(),
       aloha_plugin_js_settings(array(
         // Allow other modules, e.g. the Edit module, to embed the rendered
         // toolbar within their own DOM infrastructure.
@@ -73,7 +72,7 @@ function aloha_library() {
       // The Aloha Editor core.
       array('aloha', 'aloha.core'),
       // Our custom UI.
-      array('aloha', 'aloha.drupal-aloha/drupal-ui'),
+      array('aloha', 'aloha.drupal/drupal-ui'),
       // A sensible list of default plug-ins.
       array('aloha', 'aloha.common/contenthandler'),
       array('aloha', 'aloha.common/format'),
@@ -82,7 +81,7 @@ function aloha_library() {
       array('aloha', 'aloha.common/link'),
       array('aloha', 'aloha.common/paste'),
       // Tight Drupal integration.
-      array('aloha', 'aloha.drupal-aloha/drupal'),
+      array('aloha', 'aloha.drupal/drupal'),
     ),
   );
 
@@ -111,12 +110,12 @@ function aloha_library() {
         'defer' => FALSE,
         'attributes' => array(
           // Deferred initialization to make it possible for Aloha.settings to
-          // live in Drupal.settings. Actual initializawtion is done in
+          // live in Drupal.settings. Actual initialization is done in
           // drupal-aloha.js.
           'data-aloha-defer-init' => 'true',
         ),
       ),
-      drupal_get_path('module', 'aloha') . '/js/drupal-aloha.js' => array(
+      $module_path . '/js/drupal-aloha.js' => array(
         'group' => JS_LIBRARY,
         'defer' => FALSE,
       ),
@@ -260,22 +259,22 @@ function aloha_library() {
     ),
   );
 
-  // Aloha Editor: "drupal-aloha" bundle of plug-ins (shipped with this module).
-  $libraries['aloha.drupal-aloha'] = array(
-    'title' => 'Register the "drupal-aloha" bundle, this is the bundle that ships with this module, the "Aloha" module.',
+  // Aloha Editor: "drupal" bundle of plug-ins (shipped with this module).
+  $libraries['aloha.drupal'] = array(
+    'title' => 'Register the "drupal" bundle, this is the bundle that ships with this module, the "Aloha" module.',
     'version' => VERSION,
     'js' => array(
       aloha_plugin_js_settings(array(
-        'bundles' => array('drupal-aloha' => file_create_url(drupal_get_path('module', 'aloha') . '/aloha/'))
+        'bundles' => array('drupal' => file_create_url($module_path . '/aloha/'))
       )),
     ),
   );
-  $libraries['aloha.drupal-aloha/drupal'] = array(
+  $libraries['aloha.drupal/drupal'] = array(
     'title' => '"Drupal" Aloha Editor plug-in: contenthandler + link repository',
     'version' => VERSION,
     'js' => array(
       aloha_plugin_js_settings(array(
-        'plugins' => array('load' => array('drupal-aloha/drupal')),
+        'plugins' => array('load' => array('drupal/drupal')),
         // URL for link look-ups in the "Drupal" repository.
         'repository' => array(
           'drupal' => array('url' => url('aloha/repository/link/')),
@@ -291,14 +290,14 @@ function aloha_library() {
     ),
     'dependencies' => array(
       // Ensure the "aloha" bundle is registered.
-      array('aloha', 'aloha.drupal-aloha'),
+      array('aloha', 'aloha.drupal'),
       // This plug-in ships with a custom content handler.
       array('aloha', 'aloha.common/contenthandler'),
     )
   );
-  $ui_path = drupal_get_path('module', 'aloha') . '/aloha/drupal-ui/lib';
-  $libraries['aloha.drupal-aloha/drupal-ui'] = array(
-    'title' => 'Drupal-specific UI for Aloha Editor, initially built for Spark.',
+  $ui_path = $module_path . '/aloha/drupal-ui/lib';
+  $libraries['aloha.drupal/drupal-ui'] = array(
+    'title' => 'Drupal-specific UI for Aloha Editor.',
     'version' => VERSION,
     'js' => array(
       aloha_plugin_js_settings(array(
@@ -317,13 +316,13 @@ function aloha_library() {
       )),
     ),
     'css' => array(
-      drupal_get_path('module', 'aloha') . '/css/aloha-drupal-ui.css' => array(
+      $module_path . '/css/aloha-drupal-ui.css' => array(
         'weight' => 50,
       ),
     ),
     'dependencies' => array(
-      // Ensure the "drupal-aloha" bundle is registered.
-      array('aloha', 'aloha.drupal-aloha'),
+      // Ensure the "drupal" bundle is registered.
+      array('aloha', 'aloha.drupal'),
       // We're overriding the default UI, so depend on that default UI.
       array('aloha', 'aloha.common/ui'),
       // Icons for the UI.
@@ -355,8 +354,8 @@ function aloha_pre_render_text_format($element) {
     return $element;
   }
   // Allow modules to programmatically enforce no client-side editor by setting
-  // the #aloha property to FALSE.
-  if (isset($element['#aloha']) && !$element['#aloha']) {
+  // the #wysiwyg property to FALSE.
+  if (isset($element['#wysiwyg']) && !$element['#wysiwyg']) {
     return $element;
   }
 
@@ -369,6 +368,8 @@ function aloha_pre_render_text_format($element) {
   $format_id = $field['#format'];
 
   // Gather all necessary metadata for all available formats for this field.
+  // @todo This needs to be provided by the filter system.
+  // @see http://drupal.org/node/1782838
   foreach ($format_field['format']['#options'] as $format_id => $format_name) {
     $filter_types = filter_get_filter_types_by_format($format_id);
     $allowed_tags = filter_get_allowed_tags_by_format($format_id);
@@ -426,11 +427,6 @@ function aloha_pre_render_text_format($element) {
 }
 
 /**
- * @defgroup aloha_api Aloha Editor API
- * @{
- */
-
-/**
  * Helper function to create Aloha.settings entries for Aloha Editor plug-ins
  * that are defined in hook_library() as libraries.
  *
@@ -443,6 +439,8 @@ function aloha_pre_render_text_format($element) {
  *
  * @param $settings
  *   The Aloha settings to add.
+ *
+ * @todo Remove this.
  */
 function aloha_plugin_js_settings($settings) {
   return array(
@@ -450,7 +448,3 @@ function aloha_plugin_js_settings($settings) {
     'data' => array('aloha' => array('settings' => $settings))
   );
 }
-
-/**
- * @} End of "defgroup aloha_api".
- */
