@@ -45,7 +45,7 @@ function aloha_library() {
     'title' => 'Drupal behavior to enable Aloha Editor WYSIWYG editing on textareas.',
     'version' => VERSION,
     'js' => array(
-      $module_path . '/js/aloha.textareas.js' => array(),
+      $module_path . '/js/drupal.aloha.textarea.js' => array(),
       aloha_plugin_js_settings(array(
         // Allow other modules, e.g. the Edit module, to embed the rendered
         // toolbar within their own DOM infrastructure.
@@ -111,11 +111,11 @@ function aloha_library() {
         'attributes' => array(
           // Deferred initialization to make it possible for Aloha.settings to
           // live in Drupal.settings. Actual initialization is done in
-          // drupal-aloha.js.
+          // drupal.aloha.js.
           'data-aloha-defer-init' => 'true',
         ),
       ),
-      $module_path . '/js/drupal-aloha.js' => array(
+      $module_path . '/js/drupal.aloha.js' => array(
         'group' => JS_LIBRARY,
         'defer' => FALSE,
       ),
