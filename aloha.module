@@ -6,13 +6,8 @@
  */
 
 /**
- * @todo: the currently included build of AE is not yet optimal for Drupal; we
- *        must create a build of AE that bundles the JS and CSS in single JS &
- *        CSS files on a per-AE plug-in basis. Then, we'll be able to define
- *        libraries in hook_library() for each of the plug-ins, allowing Drupal
- *        to reason about AE's dependencies.
- *        So: finish + leverage @nod_'s 'build-with-plugin-separated' profile in
- *        AE.
+ * @todo Improve Aloha Editor build for Drupal.
+ * @see http://drupal.org/node/1782348
  */
 
 // @todo Establish a versioning scheme for our custom build.
