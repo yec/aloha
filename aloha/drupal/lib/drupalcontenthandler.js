@@ -54,7 +54,7 @@ define([
         // dynamic allowed tags drupal sprint
         var allowedTags = Aloha.activeEditable.originalObj
           .closest('[data-allowed-tags]')
-          .data('allowed-tags');
+          .attr('data-allowed-tags');
         if (allowedTags) {
           var allows = allowedTags.split(',');
           sanitize = new Sanitize({elements: allows});
