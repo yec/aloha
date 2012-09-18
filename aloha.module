@@ -109,6 +109,7 @@ function aloha_library() {
           // drupal.aloha.js.
           'data-aloha-defer-init' => 'true',
         ),
+        'preprocess' => FALSE,
       ),
       $module_path . '/js/drupal.aloha.js' => array(
         'group' => JS_LIBRARY,
