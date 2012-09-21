@@ -302,10 +302,6 @@ define([
 
       var tabs = that.handles.data('aloha-tabs');
       PubSub.pub('aloha.ui.container.selected', {data: tabs[tab.index]});
-
-      // The height of the toolbar might have changed, let the Edit module know.
-      jQuery('.edit-toolgroup.wysiwyg:first')
-        .trigger('edit-toolbar-tertiary-changed');
     },
 
     /**

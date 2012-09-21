@@ -95,13 +95,7 @@ define([
 
         // Now show the appropriate content.
         Toolbar.$handlesSurfaceContainer.stop().fadeTo(200, 1);
-        Toolbar.$panelsSurfaceContainer.stop().fadeTo(200, 1, function () {
-          // Let Edit's JS know that its tertiary toolbar has changed, so that it
-          // can decide to e.g. increase its height to accomodate the changed
-          // content.
-          jQuery('.edit-toolgroup.wysiwyg:first')
-            .trigger('edit-toolbar-tertiary-changed');
-        });
+        Toolbar.$panelsSurfaceContainer.stop().fadeTo(200, 1);
       }
     },
 
