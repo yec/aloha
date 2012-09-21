@@ -90,10 +90,12 @@ Drupal.aloha = {
       $editable.attr('id', id);
     }
 
-    if (typeof allowedTags === 'undefined') {
-      allowedTags = '';
+    if (allowedTags !== false) {
+      if (typeof allowedTags === 'undefined') {
+        allowedTags = '';
+      }
+      $editable.attr('data-allowed-tags', allowedTags);
     }
-    $editable.attr('data-allowed-tags', allowedTags);
 
     Aloha.jQuery('#' + id).aloha();
 
