@@ -88,10 +88,10 @@ define([
       }
       else {
         // Move the toolbar surface into our custom location.
-        jQuery('.edit-toolgroup.wysiwyg-tabs:first')
-          .append(Toolbar.$handlesSurfaceContainer.detach());
-        jQuery('.edit-toolgroup.wysiwyg:first')
-          .append(Toolbar.$panelsSurfaceContainer.detach());
+        var $a = jQuery('<div class="aloha-surface">').append(Toolbar.$handlesSurfaceContainer.detach());
+        jQuery('.edit-toolgroup.wysiwyg-tabs:first').append($a)
+        var $b = jQuery('<div class="aloha-surface">').append(Toolbar.$panelsSurfaceContainer.detach());
+        jQuery('.edit-toolgroup.wysiwyg:first').append($b);
 
         // Now show the appropriate content.
         Toolbar.$handlesSurfaceContainer.stop().fadeTo(200, 1);

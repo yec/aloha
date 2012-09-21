@@ -1,3 +1,11 @@
+/**
+ * @file
+ * Styles for Drupal's Aloha Editor UI.
+ */
+
+
+
+
 /** Aloha Editor core. */
 
 .aloha-surface,
@@ -17,11 +25,11 @@
   overflow: auto;
 }
 
-.aloha-toolbar :focus {
+.aloha-surface .aloha-toolbar :focus {
   outline: none;
 }
 
-.aloha-toolbar * {
+.aloha-surface .aloha-toolbar * {
  -moz-user-select: none;
  -khtml-user-select: none;
  -webkit-user-select: none;
@@ -29,7 +37,7 @@
  user-select: none;
 }
 
-.aloha-toolbar .ui-autocomplete-input {
+.aloha-surface .aloha-toolbar .ui-autocomplete-input {
   -moz-user-select: text;
   -khtml-user-select: text;
   -webkit-user-select: text;
@@ -126,7 +134,7 @@
 
 
 /** Toolbar panels **/
-.aloha-toolbar-panels {
+.aloha-surface .aloha-toolbar-panels {
   display: block;
   height: auto;
   border: 1px solid #AAA;
@@ -135,7 +143,7 @@
   font-size: 15px;
 }
 
-.aloha-toolbar-panels:after {
+.aloha-surface .aloha-toolbar-panels:after {
   visibility: hidden;
   display: block;
   clear: both;
@@ -144,17 +152,17 @@
   content: " ";
 }
 
-.aloha-toolbar-panels button .ui-button-text {
+.aloha-surface .aloha-toolbar-panels button .ui-button-text {
   position: absolute;
   left: -9999px;
   top: -9999px;
 }
 
-.aloha-toolbar-panels button .spark-icon {
+.aloha-surface .aloha-toolbar-panels button .spark-icon {
   font-size: 15px;
 }
 
-.aloha-toolbar-panels button {
+.aloha-surface .aloha-toolbar-panels button {
   border: none;
   background: inherit;
   color: inherit;
@@ -167,8 +175,8 @@
   text-align: center;
 }
 
-.aloha-toolbar-panels,
-.aloha-toolbar-panels button.ui-state-default {
+.aloha-surface .aloha-toolbar-panels,
+.aloha-surface .aloha-toolbar-panels button.ui-state-default {
   background: -moz-linear-gradient(rgb(254,254,254) 0%,rgb(204,204,204) 100%);
   background: -webkit-gradient(linear,color-stop(0, rgb(254,254,254)),color-stop(1, rgb(204,204,204)));
   background: -webkit-linear-gradient(rgb(254,254,254) 0%,rgb(204,204,204) 100%);
@@ -176,7 +184,7 @@
   background: linear-gradient(rgb(254,254,254) 0%,rgb(204,204,204) 100%);
 }
 
-.aloha-toolbar-panels button.ui-state-hover {
+.aloha-surface .aloha-toolbar-panels button.ui-state-hover {
   color: #444;
   background: -moz-linear-gradient(rgb(255,255,255) 0%,#EEE 100%);
   background: -webkit-gradient(linear,color-stop(0, rgb(255,255,255)),color-stop(1, #EEE));
@@ -184,7 +192,7 @@
   background: -o-linear-gradient(rgb(255,255,255) 0%,#EEE 100%);
   background: linear-gradient(rgb(255,255,255) 0%,#EEE 100%);
 }
-.aloha-toolbar-panels button.aloha-button-active {
+.aloha-surface .aloha-toolbar-panels button.aloha-button-active {
   color: #555;
   background: -moz-linear-gradient(rgb(170,170,170) 0%,rgb(238,238,238) 100%);
   background: -webkit-gradient(linear,color-stop(0, rgb(170,170,170)),color-stop(1, rgb(238,238,238)));
@@ -192,7 +200,7 @@
   background: -o-linear-gradient(rgb(255,255,255) 0%,rgb(238,238,238) 100%);
   background: linear-gradient(rgb(170,170,170) 0%,rgb(238,238,238) 100%);
 }
-.aloha-toolbar-panels button.ui-state-active {
+.aloha-surface .aloha-toolbar-panels button.ui-state-active {
   color: #333;
   background: -moz-linear-gradient(rgb(136,136,136) 0%,rgb(204,204,204) 100%);
   background: -webkit-gradient(linear,color-stop(0, rgb(136,136,136)),color-stop(1, rgb(204,204,204)));
@@ -201,7 +209,7 @@
   background: linear-gradient(rgb(136,136,136) 0%,rgb(204,204,204) 100%);
 }
 
-.aloha-toolbar-panels .ui-autocomplete-input {
+.aloha-surface .aloha-toolbar-panels .ui-autocomplete-input {
   font-size: .85em;
   font-size: 2px 4px;
   padding: 2px 4px;
@@ -214,22 +222,22 @@
 
 
 /* multisplit as dropdown (p/h1/h2/... dropdown) */
-.aloha-toolbar-panels button.aloha-ui-menubutton {
+.aloha-surface .aloha-toolbar-panels button.aloha-ui-menubutton {
   position: relative;
   width: 40px;
 }
 
-.aloha-toolbar-panels button.aloha-ui-menubutton .ui-button-icon-primary,
-.aloha-toolbar-panels button.aloha-ui-menubutton .ui-button-icon-secondary {
+.aloha-surface .aloha-toolbar-panels button.aloha-ui-menubutton .ui-button-icon-primary,
+.aloha-surface .aloha-toolbar-panels button.aloha-ui-menubutton .ui-button-icon-secondary {
   float: left; /* LTR */
   padding: 0 1px;
 }
 
-.aloha-toolbar-panels button.aloha-ui-menubutton .ui-button-icon-primary {
+.aloha-surface .aloha-toolbar-panels button.aloha-ui-menubutton .ui-button-icon-primary {
   padding: 0 4px;
 }
 
-.aloha-toolbar-panels button.aloha-ui-menubutton .ui-icon-triangle-1-s:before {
+.aloha-surface .aloha-toolbar-panels button.aloha-ui-menubutton .ui-icon-triangle-1-s:before {
   font-family: 'spark_icons';
   content: "\e024";
   speak: none;
@@ -238,7 +246,7 @@
   padding: 0 1px;
 }
 
-.aloha-toolbar-panels button.aloha-ui-menubutton ul {
+.aloha-surface .aloha-toolbar-panels button.aloha-ui-menubutton ul {
   background: #FFF;
   position: absolute;
   top: 31px;
@@ -252,12 +260,12 @@
   border-radius:         4px;
 }
 
-.aloha-toolbar-panels button.aloha-ui-menubutton ul li {
+.aloha-surface .aloha-toolbar-panels button.aloha-ui-menubutton ul li {
   list-style: none;
   text-align: left; /* LTR */
 }
 
-.aloha-toolbar-panels button.aloha-ui-menubutton ul li a {
+.aloha-surface .aloha-toolbar-panels button.aloha-ui-menubutton ul li a {
   display: block;
   padding: 4px 8px;
   color: black;
@@ -274,7 +282,7 @@
   border-radius:         4px;
 }
 
-.aloha-toolbar-panels button.aloha-ui-menubutton ul li a.ui-state-focus {
+.aloha-surface .aloha-toolbar-panels button.aloha-ui-menubutton ul li a.ui-state-focus {
   background-color: #4A92E4;
   color: white;
 }
