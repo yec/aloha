@@ -99,6 +99,11 @@ Drupal.aloha = {
 
     Aloha.jQuery('#' + id).aloha();
 
+    // Work-around for AE bug. See:
+    //  - http://drupal.org/node/1791758
+    //  - https://github.com/alohaeditor/Aloha-Editor/issues/716
+    $('#' + id + '-aloha.aloha-textarea').css('width', '');
+
     // Trigger 'aloha-content-changed' event whenever content has changed.
     Aloha.bind('aloha-smart-content-changed.aloha', function (event, ae) {
       if (ae.editable.obj[0].id === id && ae.triggerType !== 'blur') {
