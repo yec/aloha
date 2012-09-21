@@ -167,10 +167,11 @@
 }
 
 .aloha-toolbar-panels button.ui-state-hover {
-  background: -moz-linear-gradient(rgb(255,255,255) 0%,rgb(221,221,221) 100%);
-  background: -webkit-gradient(linear,color-stop(0, rgb(255,255,255)),color-stop(1, rgb(221,221,221)));
-  background: -webkit-linear-gradient(rgb(255,255,255) 0%,rgb(221,221,221) 100%);
-  background: linear-gradient(rgb(255,255,255) 0%,rgb(221,221,221) 100%);
+  color: #444;
+  background: -moz-linear-gradient(rgb(255,255,255) 0%,#EEE 100%);
+  background: -webkit-gradient(linear,color-stop(0, rgb(255,255,255)),color-stop(1, #EEE));
+  background: -webkit-linear-gradient(rgb(255,255,255) 0%,#EEE 100%);
+  background: linear-gradient(rgb(255,255,255) 0%,#EEE 100%);
 }
 .aloha-toolbar-panels button.aloha-button-active {
   color: #555;
