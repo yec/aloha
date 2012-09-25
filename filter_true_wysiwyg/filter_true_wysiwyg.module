@@ -104,6 +104,7 @@ function filter_true_wysiwyg_filter_info_alter(&$info) {
   $contrib_filter_type = array(
     // image_resize_filter.module
     'image_resize_filter' => FILTER_TYPE_TRANSFORM_DOM,
+    'filter_markdown' => FILTER_TYPE_HTML_GENERATOR,
     // typogrify.module
     'typogrify' => FILTER_TYPE_TRANSFORM_TEXT,
   );
