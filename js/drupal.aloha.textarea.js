@@ -1,4 +1,4 @@
-(function ($, Drupal, window, document, undefined) {
+(function ($, Drupal) {
 
 "use strict";
 
@@ -54,4 +54,4 @@ Drupal.behaviors.alohaTextareas = {
   }
 };
 
-})(jQuery, Drupal, this, this.document);
+})(jQuery, Drupal);
