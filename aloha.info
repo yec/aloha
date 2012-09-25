@@ -2,6 +2,7 @@ name = Aloha Editor
 description = WYSIWYG editing for rich text fields using Aloha Editor.
 package = User interface
 core = 7.x
+php = 5.3
 
 dependencies[] = filter_true_wysiwyg
 
