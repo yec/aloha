@@ -4,7 +4,10 @@ Installation instructions
 Install as any Drupal module (so also install its dependencies), with the
 following additional steps:
 
-* Configure the jQuery Update module to use jQuery 1.7, not jQuery 1.5.
+* Configure the jQuery Update module to use jQuery 1.7, not jQuery 1.5. This
+  requires you to use the 2.x-dev release of jQuery Update, and go to the jQuery
+  Update settings page to configure that there; don't load it from the jQuery
+  CDN.
 * Apply this core patch: http://drupal.org/files/1664602-1.patch
 * Configure a HTML input format WITHOUT the "Convert URLs into links"
   (filter_url) and the "Convert line breaks into HTML" (filter_autop) filters.
