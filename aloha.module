@@ -350,7 +350,7 @@ function aloha_library() {
       // We're overriding the default UI, so depend on that default UI.
       array('aloha', 'aloha.common/ui'),
       // Icons for the UI.
-      array('iconfonts', 'spark_icons'),
+      array('admin_icons', 'spark_icons'),
     ),
   );
 
