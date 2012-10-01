@@ -235,7 +235,7 @@ function caption_filter_tips($filter, $format, $long = FALSE) {
       </ul>');
   }
   else {
-    return check_plain(t('Captions may be specified with a <code>data-caption="Image caption"</code> attribute. Images can be aligned with <code>data-align="left"</code>.'));
+    return t('Captions may be specified with a <code>data-caption="Image caption"</code> attribute. Images can be aligned with <code>data-align="left"</code>.');
   }
 }
 
