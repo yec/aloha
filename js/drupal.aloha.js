@@ -42,7 +42,9 @@ Drupal.aloha = {
     }
     else {
       Drupal.aloha.state.initializing = true;
-      Drupal.aloha.state.initCallbacks.push(callback);
+      if (typeof callback === "function") {
+        Drupal.aloha.state.initCallbacks.push(callback);
+      }
     }
 
     // Migrate Aloha.settings from Drupal.settings.
