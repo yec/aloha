@@ -8,6 +8,14 @@
 
 /** Aloha Editor core. */
 
+.aloha-surface {
+  font-size: 13px;
+}
+
+.tab-handles {
+  line-height: 1.6;
+}
+
 .aloha-surface,
 .aloha-surface .ui-widget,
 .aloha.ui-tooltip {
@@ -173,6 +181,10 @@
   float: left; /* LTR */
   border-right: 1px solid #AAA; /* LTR */
   text-align: center;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  margin: 0;
 }
 
 .aloha-surface .aloha-toolbar-panels,
@@ -222,9 +234,14 @@
 
 
 /* multisplit as dropdown (p/h1/h2/... dropdown) */
+.aloha-surface .aloha-ui-menubutton-menu {
+  z-index: 1;
+}
+
 .aloha-surface .aloha-toolbar-panels button.aloha-ui-menubutton {
   position: relative;
   width: 40px;
+  overflow: visible;
 }
 
 .aloha-surface .aloha-toolbar-panels button.aloha-ui-menubutton .ui-button-icon-primary,
