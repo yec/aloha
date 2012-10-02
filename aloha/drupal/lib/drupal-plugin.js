@@ -50,11 +50,13 @@ define([
         'h5': 'h5',
         'h6': 'h6'
       };
+      var neverAllowedElements = [ 'b', 'i' ];
 
       // Register DrupalContentHandler.
       ContentHandlerManager.register('drupal', DrupalContentHandler);
 
       Aloha.bind('aloha-editable-activated', function ($event, params) {
+        var element;
         var allowedTagsList = Aloha.activeEditable.originalObj
           .closest('[data-allowed-tags]')
           .attr('data-allowed-tags');
@@ -62,13 +64,22 @@ define([
         if (allowedTagsList) {
           allowedTags = allowedTagsList.split(',');
 
-          for (var element in elementMapping) {
+          for (element in elementMapping) {
             if (elementMapping.hasOwnProperty(element) && $.inArray(element, allowedTags) === -1) {
               $('span.ui-button-icon-primary[data-html-tag="' + elementMapping[element] + '"]')
                 .closest('button')
                 .addClass('aloha-drupal-ui-state-hidden');
             }
           }
+        }
+
+        // Always hide the elements that are not allowed.
+        for (var i = 0; i < neverAllowedElements.length; i++) {
+          element = neverAllowedElements[i];
+          var tag = elementMapping[element];
+          $('span.ui-button-icon-primary[data-html-tag="' + tag + '"]')
+            .closest('button')
+            .addClass('aloha-drupal-ui-state-hidden');
         }
 
         // Clean up empty component groups.
