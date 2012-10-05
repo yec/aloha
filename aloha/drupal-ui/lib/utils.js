@@ -2,6 +2,29 @@ define(['jquery', 'jqueryui'], function ($) {
   'use strict';
   var Utils = {
 
+    /**
+     * Wraps an element such that a label is displayed alongside it.
+     *
+     * Contrary to tooltips, a label is always visible and takes up
+     * place in the toolbar.
+     *
+     * The label will wrap the given element to make an implicit
+     * association between label and element (click on the label will
+     * give focus to a wrapped input element for example).
+     *
+     * @param {string} labelText
+     *       The already internationalized text the label should contain.
+     * @param {!jQuery} element
+     *       Any element to wrap.
+     * @return {!jQuery}
+     *       A new label element that wraps the given element.
+     */
+    wrapWithLabel: function(labelText, element) {
+      return $('<label>', {'class': 'aloha-ui-label'})
+        .append($('<span>', {'class': 'aloha-ui-label-text', 'text': labelText}))
+        .append(element);
+    },
+
     buttonDataIconsMapping: {
       'link': '&#xe002;',
       'unlink': '&#xe002;',
