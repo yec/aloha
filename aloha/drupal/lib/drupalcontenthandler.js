@@ -5,7 +5,7 @@ define([
   'aloha/console',
   'vendor/sanitize'
 ],
-  function (Aloha, $, ContentHandlerManager, console, Sanitize) {
+  function (Aloha, $, ContentHandlerManager, console) {
     "use strict";
 
     var sanitize, setting = {};

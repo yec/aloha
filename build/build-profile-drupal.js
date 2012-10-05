@@ -455,7 +455,8 @@
 				"ui/utils",
 				"ui/toolbar",
 				"ui/tab",
-				"ui/menuButton"
+				"ui/menuButton",
+				"vendor/sanitize"
 			]
         },
 
