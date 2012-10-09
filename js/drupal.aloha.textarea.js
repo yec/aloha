@@ -12,23 +12,12 @@ Drupal.behaviors.alohaTextareas = {
           return;
         }
         var $this = $(this);
-        var params = Drupal.settings.aloha.textareas[this.id];
-        var format;
-        for (format in params) {
-          if (params.hasOwnProperty(format)) {
-            $.extend(params[format], {
-              format: format,
-              trigger: this.id,
-              field: params.field
-            });
-          }
-        }
-        format = this.value;
-        var $editable = $context.find('#' + params[format].field);
-
+        var format = Drupal.settings.aloha.formats[this.value];
+        var field = Drupal.settings.aloha.textareas[this.id];
+        var $editable = $context.find('#' + field);
         // Directly attach this editor, if the input format is enabled.
-        if (params[format].status) {
-          Drupal.aloha.attach($editable, params[format].allowedTags);
+        if (format.status) {
+          Drupal.aloha.attach($editable, format);
 
           // Activate the first Aloha Editor.
           if (first) {
@@ -44,9 +33,9 @@ Drupal.behaviors.alohaTextareas = {
             // Editor; otherwise it would not pick up the changed
             // data-allowed-tags attribute.
             Drupal.aloha.detach($editable);
-            var format = this.value;
-            if (params[format].status) {
-              Drupal.aloha.attach($editable, params[format].allowedTags);
+            var format = Drupal.settings.aloha.formats[this.value];
+            if (format.status) {
+              Drupal.aloha.attach($editable, format);
               Drupal.aloha.activate($editable);
             }
           });

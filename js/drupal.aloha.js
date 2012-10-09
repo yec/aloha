@@ -80,23 +80,19 @@ Drupal.aloha = {
    *   The editable to which Aloha Editor should be applied. Can be a <textarea>
    *   or any HTML tag that contains HTML that should be edited (e.g. <div>,
    *   <article>, etc.) Should have a data-allowed-tags attribute (see README).
-   * @param allowedTags
-   *   An optional allowedTags string, which contains a comma-separated list of
-   *   allowed HTML tags. E.g.: "br,p" or "br,p,strong,em,h1,h2,h3,blockquote".
+   * @param format
+   *   The format object of the selected text format. The following properties
+   *   are used:
+   *   - class: Class to add to the editable while this format is active.
    */
-  attach: function ($editable, allowedTags) {
+  attach: function ($editable, format) {
     $editable.addClass('aloha-attached');
     Drupal.aloha._ensureID($editable);
     Drupal.aloha._ensureNonFormElement($editable);
     var $alohaEditable = Drupal.aloha._getAlohaEditable($editable);
     var id = $alohaEditable.attr('id');
 
-    if (allowedTags !== false) {
-      if (typeof allowedTags === 'undefined') {
-        allowedTags = '';
-      }
-      $alohaEditable.attr('data-allowed-tags', allowedTags);
-    }
+    Drupal.aloha._setFormatClass($alohaEditable, format.className);
 
     Aloha.jQuery('#' + id).aloha();
 
@@ -148,6 +144,28 @@ Drupal.aloha = {
     Drupal.aloha._restoreID($editable);
 
     $editable.removeClass('aloha-attached');
+  },
+
+  /**
+   * Remove any previous format classes and set the one for the current format.
+   *
+   * @param $alohaEditable
+   *   The "Aloha" editable, typically a <div>, possibly a temporary one because
+   *   the "original" editable is a <textarea>.
+   * @param formatClassName
+   *   The class name for the current format.
+   */
+  _setFormatClass: function($alohaEditable, formatClassName) {
+    var formats = Drupal.settings.aloha.formats;
+    for (var format in formats) {
+      if (formats.hasOwnProperty(format)) {
+        $alohaEditable.removeClass(formats[format].className);
+      }
+    }
+
+    if (typeof formatClassName !== 'undefined') {
+      $alohaEditable.addClass(formatClassName);
+    }
   },
 
   /**

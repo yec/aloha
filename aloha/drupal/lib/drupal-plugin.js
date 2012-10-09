@@ -56,14 +56,21 @@ define([
       ContentHandlerManager.register('drupal', DrupalContentHandler);
 
       Aloha.bind('aloha-editable-activated', function ($event, params) {
-        var element;
-        var allowedTagsList = Aloha.activeEditable.originalObj
-          .closest('[data-allowed-tags]')
-          .attr('data-allowed-tags');
+        var config, element, i;
+        var drupalConfig = Aloha.settings.plugins.drupal.editables;
+        var classes = Aloha.activeEditable.originalObj.attr('class').split(' ');
+        for (i = 0; i < classes.length; i++) {
+          if (typeof drupalConfig['.' + classes[i]] !== 'undefined') {
+            config = drupalConfig['.' + classes[i]];
+          }
+        }
 
-        if (allowedTagsList) {
-          allowedTags = allowedTagsList.split(',');
+        if (typeof config === 'undefined') {
+          config = { allowedTags: [] };
+        }
 
+        var allowedTags = config.allowedTags;
+        if (allowedTags.length) {
           for (element in elementMapping) {
             if (elementMapping.hasOwnProperty(element) && $.inArray(element, allowedTags) === -1) {
               $('span.ui-button-icon-primary[data-html-tag="' + elementMapping[element] + '"]')
@@ -74,7 +81,7 @@ define([
         }
 
         // Always hide the elements that are not allowed.
-        for (var i = 0; i < neverAllowedElements.length; i++) {
+        for (i = 0; i < neverAllowedElements.length; i++) {
           element = neverAllowedElements[i];
           var tag = elementMapping[element];
           $('span.ui-button-icon-primary[data-html-tag="' + tag + '"]')

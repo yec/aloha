@@ -57,6 +57,83 @@ Loading Aloha Editor plug-ins
 
 5) For more details, see the ASCII diagram and aloha_library().
 
+An example for all of this: the Caption module.
+
+
+Configuring Aloha Editor plug-ins
+---------------------------------
+
+Aloha Editor plug-in settings/configuration typically live in
+
+  Aloha.settings.plugins.pluginName
+
+Everything in Drupal.settings.aloha.settings will be copied to Aloha.settings,
+this is done by Drupal.aloha.init(), just before Aloha Editor is initialized.
+
+In PHP, that can be done like this:
+
+  $form['some textarea with processed text']['#attached']['js'][] = array(
+    'type' => 'setting',
+    'data' => array('aloha' => array('settings' => array('plugins' => array(
+      'pluginName' => array(
+        'foo' => 'bar'
+      ),
+    )))),
+  );
+
+
+Activating/configuring Aloha Editor plug-ins based on text format
+-----------------------------------------------------------------
+
+If you need your Aloha Editor plug-in to be disabled entirely for text format X
+or to have different settings for text format Y, that is supported as well.
+
+For Aloha Editor plug-ins that support this, you can then configure them like
+this:
+
+  Drupal.settings.aloha.settings.plugins.pluginName.editables['.text-format-filtered-html'] = {
+    status: true,
+  };
+  Drupal.settings.aloha.settings.plugins.pluginName.editables['.text-format-full-html'] = {
+    status: false,
+  };
+
+In PHP, that can be done like this:
+
+  $form['some textarea with processed text']['#attached']['js'][] = array(
+    'type' => 'setting',
+    'data' => array('aloha' => array('settings' => array('plugins' => array(
+      'pluginName' => array(
+        'editables' => array(
+          '.text-format-filtered-html' => array(
+            'status' => TRUE,
+          ),
+          '.text-format-full-html' => array(
+            'status' => FALSE,
+          ),
+        ),
+      ),
+    )))),
+  );
+
+You'll want your Aloha Editor plug-in to consume settings like the common/format
+plug-in does: http://aloha-editor.org/guides/plugins.html#configure-plugins.
+Examples for all this: Aloha Editor's sanitizeContentHandler.js and the "drupal"
+plug-in that is included with the Aloha module.
+@todo: This is currently rather painful to implement in Aloha Editor plug-ins,
+but we're aiming to make it trivial, please see http://drupal.org/node/1786550.
+
+
+Dynamically overriding Aloha.settings
+-------------------------------------
+
+Every piece of JavaScript also has the opportunity to modify Aloha.settings
+dynamically, just do something like this:
+
+  $(document).bind('aloha-before-init', function (e, alohaSettings) {
+    alohaSettings.foo = 'bar';
+  });
+
 
 The Aloha Editor dependency chain
 ---------------------------------

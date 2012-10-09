@@ -17,8 +17,8 @@ Drupal.edit.wysiwyg.aloha = {
     });
   },
 
-  attach: function ($editable) {
-    Drupal.aloha.attach($editable, false);
+  attach: function ($editable, format) {
+    Drupal.aloha.attach($editable, format);
     $editable.bind('aloha-content-changed', function() {
       $editable.trigger('edit-wysiwyg-content-changed');
     });

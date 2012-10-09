@@ -44,20 +44,28 @@ define([
        * @param content
        */
       handleContent: function (content) {
-        var config;
+        var config, i;
         // sanitize does not work in IE7. It tries to set the style attribute via setAttributeNode() and this is know to not work in IE7
         // (see http://www.it-blogger.com/2007-06-22/microsofts-internetexplorer-und-mitglied-nicht-gefunden/ as a reference)
         if ($.browser.msie && $.browser.version <= 7) {
           return content;
         }
 
-        // dynamic allowed tags drupal sprint
-        var allowedTags = Aloha.activeEditable.originalObj
-          .closest('[data-allowed-tags]')
-          .attr('data-allowed-tags');
-        if (allowedTags) {
-          var allows = allowedTags.split(',');
-          sanitize = new Sanitize({elements: allows});
+        var drupalConfig = Aloha.settings.plugins.drupal.editables;
+        var classes = Aloha.activeEditable.originalObj.attr('class').split(' ');
+        for (i = 0; i < classes.length; i++) {
+          if (typeof drupalConfig['.' + classes[i]] !== 'undefined') {
+            config = drupalConfig['.' + classes[i]];
+          }
+        }
+
+        if (typeof config === 'undefined') {
+          config = { allowedTags: [] };
+        }
+
+        var allowedTags = config.allowedTags;
+        if (allowedTags.length) {
+          sanitize = new Sanitize({elements: allowedTags});
         }
         else if (typeof sanitize === 'undefined') {
           config = this.setting.basic;

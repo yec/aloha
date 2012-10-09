@@ -385,37 +385,13 @@ function aloha_pre_render_text_format($element) {
 
   $format_field = &$element['format'];
   $field = &$element['value'];
-  $settings = array(
-    'field' => $field['#id'],
-  );
-
-  $format_id = $field['#format'];
-
-  // Gather all necessary metadata for all available formats for this field.
-  // @todo This needs to be provided by the filter system.
-  // @see http://drupal.org/node/1782838
-  foreach ($format_field['format']['#options'] as $format_id => $format_name) {
-    $filter_types = filter_get_filter_types_by_format($format_id);
-    $allowed_tags = filter_get_allowed_tags_by_format($format_id);
-    $no_disallowed_tags = $allowed_tags === TRUE;
-    $necessary_tags_allowed = $no_disallowed_tags || (in_array('br', $allowed_tags) && in_array('p', $allowed_tags));
-    $settings[$format_id] = array(
-      // Aloha Editor should only be enabled if no "HTML generator" filters are
-      // used in this format, and the <br> and <p> tags are allowed.
-      'status' => !in_array(FILTER_TYPE_HTML_GENERATOR, $filter_types)
-                  && $necessary_tags_allowed,
-      // Let Aloha Editor know which tags are allowed; it will reconfigure its
-      // UI to match that.
-      'allowedTags' => implode(',', $no_disallowed_tags ? array() : $allowed_tags),
-    );
-  }
 
   // Use a hidden element for a single text format.
   if (!$format_field['format']['#access']) {
     $format_field['aloha'] = array(
       '#type' => 'hidden',
       '#name' => $format_field['format']['#name'],
-      '#value' => $format_id,
+      '#value' => $field['#format'],
       '#attributes' => array(
         'id' => $format_field['format']['#id'],
         'class' => array('aloha-formatselector-for-textarea'),
@@ -428,9 +404,12 @@ function aloha_pre_render_text_format($element) {
           array(
             'type' => 'setting',
             'data' => array('aloha' => array('textareas' => array(
-              $format_field['format']['#id'] => $settings
+              $format_field['format']['#id'] => $field['#id'],
             ))),
           ),
+        ),
+        'aloha_add_format_settings' => array(
+          array()
         ),
       ),
     );
@@ -442,12 +421,70 @@ function aloha_pre_render_text_format($element) {
     $format_field['format']['#attached']['js'][] = array(
       'type' => 'setting',
       'data' => array('aloha' => array('textareas' => array(
-        $format_field['format']['#id'] => $settings
+        $format_field['format']['#id'] => $field['#id'],
       ))),
     );
+    $format_field['format']['#attached']['aloha_add_format_settings'][] = array();
   }
 
   return $element;
+}
+
+/**
+ * Adds Drupal.settings.aloha.formats and Aloha.settings.plugins.drupal. Ensures
+ * Aloha Editor has the metadata to deal with formats.
+ */
+function aloha_add_format_settings() {
+  $format_settings_added = &drupal_static(__FUNCTION__, FALSE);
+
+  if (!$format_settings_added) {
+    global $user;
+    $formats = filter_formats($user);
+
+    $settings['formats'] = array();
+    $settings['settings']['plugins']['drupal'] = array();
+
+    // Gather all necessary metadata for each format available to the current
+    // user.
+    // @todo filter_get_filter_types_by_format() and filter_get_allowed_tags_by_format()
+    // are provided by http://drupal.org/node/1782838
+    foreach (array_keys($formats) as $format_id) {
+      $filter_types = filter_get_filter_types_by_format($format_id);
+      $allowed_tags = filter_get_allowed_tags_by_format($format_id);
+      $no_disallowed_tags = $allowed_tags === TRUE;
+      $necessary_tags_allowed = $no_disallowed_tags || (in_array('br', $allowed_tags) && in_array('p', $allowed_tags));
+      $class = 'text-format-' . drupal_html_class($format_id);
+      $settings['formats'][$format_id] = array(
+        'id' => $format_id,
+        // Aloha Editor should only be enabled if no "HTML generator" filters
+        // are used in this format, and the <br> and <p> tags are allowed.
+        'status' => !in_array(FILTER_TYPE_HTML_GENERATOR, $filter_types)
+        && $necessary_tags_allowed,
+        // The class that will be set on the editable whenever this text format
+        // is active.
+        'className' => $class,
+      );
+
+      // For Aloha Editor to make sense in a Drupal context, we need to make
+      // sure that Aloha Editor works as well as possible with Drupal's filter
+      // system. Hence we developed the 'drupal' plug-in for Aloha Editor, which
+      // is able to adjust the UI and filter pasting based on the allowed tags
+      // of the current text format of the current editable.
+      // Whenever we use Aloha Editor within Drupal, it's in
+      // e.g. if the <em> tag is disallowed, it won't show the "I" button and
+      // pasted italic text will automatically be unitalicized.
+      // @todo: make this plug-in obsolete: http://drupal.org/node/1806492
+      if ($settings['formats'][$format_id]['status']) {
+        $settings['settings']['plugins']['drupal']['editables'][".$class"] = array(
+          'allowedTags' => $no_disallowed_tags ? array() : $allowed_tags,
+        );
+      }
+    }
+
+    drupal_add_js(array('aloha' => $settings), array('type' => 'setting'));
+
+    $format_settings_added = TRUE;
+  }
 }
 
 /**
