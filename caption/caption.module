@@ -26,50 +26,53 @@ function caption_library() {
       'version' => VERSION,
       'js' => array(
         $path . '/js/caption-aloha.js' => array(),
-        aloha_plugin_js_settings(array(
-          'plugins' => array(
-            'load' => array('extra/captioned-image'),
-            'captionedImage' => array(
-              // Formatting is prevented in the "sanitize" content handler,
-              // <br>s and <p>s are prevented here.
-              'allowLineBreak'      => FALSE,
-              // Apply image captions to every <img> tag.
-              'selector'            => 'img',
-              // Don't load the default CSS.
-              'defaultCss'          => FALSE,
-              // Don't add classes to images that are captioned.
-              'captionedImageClass' => '',
-              // Specify a custom class for CaptionedImage Aloha Blocks, so that
-              // we can target it with our custom CSS.
-              'blockClass'          => 'caption-captioned-image-block',
-              // Function callback, gets set in `js/caption-aloha.js`.
-              // 'render' => function() {}, 
-            ),
-          ),
-          'contentHandler' => array(
-            'handler' => array(
-              'sanitize' => array(
-                // Prevent formatting in captions.
-                '.aloha-captioned-image-caption' => array('elements' => array()),
+        array(
+          'type' => 'setting',
+          'data' => array('aloha' => array('settings' => array(
+            'plugins' => array(
+              'load' => array('extra/captioned-image'),
+              'captionedImage' => array(
+                // Formatting is prevented in the "sanitize" content handler,
+                // <br>s and <p>s are prevented here.
+                'allowLineBreak'      => FALSE,
+                // Apply image captions to every <img> tag.
+                'selector'            => 'img',
+                // Don't load the default CSS.
+                'defaultCss'          => FALSE,
+                // Don't add classes to images that are captioned.
+                'captionedImageClass' => '',
+                // Specify a custom class for CaptionedImage Aloha Blocks, so that
+                // we can target it with our custom CSS.
+                'blockClass'          => 'caption-captioned-image-block',
+                // Function callback, gets set in `js/caption-aloha.js`.
+                // 'render' => function() {}, 
               ),
             ),
-          ),
-          // Specify the location of the CaptionedImage buttons in the toolbar.
-          'toolbar' => array(
-            'tabs' => array(
-              array(
-                'label' => 'Image',
-                'showOn' => array('scope' => '__hidden__'),
-                'components' => array(
-                  'imgAlignLeft',
-                  'imgAlignRight',
-                  'imgAlignCenter',
-                  'imgAlignClear',
+            'contentHandler' => array(
+              'handler' => array(
+                'sanitize' => array(
+                  // Prevent formatting in captions.
+                  '.aloha-captioned-image-caption' => array('elements' => array()),
                 ),
+              ),
+            ),
+            // Specify the location of the CaptionedImage buttons in the toolbar.
+            'toolbar' => array(
+              'tabs' => array(
+                array(
+                  'label' => 'Image',
+                  'showOn' => array('scope' => '__hidden__'),
+                  'components' => array(
+                    'imgAlignLeft',
+                    'imgAlignRight',
+                    'imgAlignCenter',
+                    'imgAlignClear',
+                  ),
+                )
               )
-            )
-          ),
-        )),
+            ),
+          ))),
+        ),
       ),
       'css' => array(
         $path . '/css/caption-aloha.css',

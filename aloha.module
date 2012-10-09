@@ -531,26 +531,3 @@ function aloha_add_format_settings() {
     $format_settings_added = TRUE;
   }
 }
-
-/**
- * Helper function to create Aloha.settings entries for Aloha Editor plug-ins
- * that are defined in hook_library() as libraries.
- *
- * Note that Aloha.settings initially lives as Drupal.settings.aloha.settings.
- *
- * Also note that Drupal.settings.aloha.plugins.load is initially an *array* of
- * Aloha Editor plug-ins to load, instead of a comma-separated list. Just before
- * Aloha.deferInit() is called, it is transformed into the comma-separated list
- * that Aloha Editor expects.
- *
- * @param $settings
- *   The Aloha settings to add.
- *
- * @todo Remove this.
- */
-function aloha_plugin_js_settings($settings) {
-  return array(
-    'type' => 'setting',
-    'data' => array('aloha' => array('settings' => $settings))
-  );
-}
