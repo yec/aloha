@@ -10,7 +10,7 @@
 
 BUILDPROFILE=build/aloha/build-profile-drupal.js
 TARGETDIR=target/build-profile-drupal
-TAG=alohaeditor-0.22.1
+TAG=master #alohaeditor-0.22.1
 PATCHEXCLUDE="--exclude=build/* --exclude=doc/*"
 
 
@@ -19,6 +19,16 @@ PATCHEXCLUDE="--exclude=build/* --exclude=doc/*"
 echo "[1/6] Cloning Aloha Editor"
 
 git clone git://github.com/alohaeditor/Aloha-Editor.git --depth 1 --branch $TAG
+cd Aloha-Editor
+git checkout 27110c00ba
+cd ..
+# mkdir Aloha-Editor
+# cd Aloha-Editor
+# git init
+# git remote add origin git://github.com/alohaeditor/Aloha-Editor.git
+# git fetch origin 27110c00ba
+# git reset --hard FETCH_HEAD
+# cd ..
 
 
 
@@ -26,11 +36,7 @@ git clone git://github.com/alohaeditor/Aloha-Editor.git --depth 1 --branch $TAG
 echo "[2/6] Applying patches"
 
 cd Aloha-Editor
-wget https://github.com/alohaeditor/Aloha-Editor/pull/642.patch
-git apply 642.patch $PATCHEXCLUDE
-wget https://github.com/alohaeditor/Aloha-Editor/commit/bf4033b749a8ab91006390bfe0d407b1d1243bf4.patch
-git apply bf4033b749a8ab91006390bfe0d407b1d1243bf4.patch $PATCHEXCLUDE
-
+# No patches at the moment.
 
 
 
