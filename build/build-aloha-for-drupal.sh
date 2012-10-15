@@ -30,8 +30,6 @@ wget https://github.com/alohaeditor/Aloha-Editor/pull/642.patch
 git apply 642.patch $PATCHEXCLUDE
 wget https://github.com/alohaeditor/Aloha-Editor/commit/bf4033b749a8ab91006390bfe0d407b1d1243bf4.patch
 git apply bf4033b749a8ab91006390bfe0d407b1d1243bf4.patch $PATCHEXCLUDE
-wget https://github.com/alohaeditor/Aloha-Editor/pull/683.patch
-git apply 683.patch $PATCHEXCLUDE
 
 
 

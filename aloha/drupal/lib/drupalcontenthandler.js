@@ -65,7 +65,7 @@ define([
 
         var allowedTags = config.allowedTags;
         if (allowedTags.length) {
-          sanitize = new Sanitize({elements: allowedTags});
+          sanitize = new Sanitize({elements: allowedTags}, jQuery);
         }
         else if (typeof sanitize === 'undefined') {
           config = this.setting.basic;
@@ -75,7 +75,7 @@ define([
               return elem.contentEditable !== "false";
             }
           ];
-          sanitize = new Sanitize(config);
+          sanitize = new Sanitize(config, jQuery);
         }
 
         if (typeof content === 'string') {
