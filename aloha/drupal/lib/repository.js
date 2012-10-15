@@ -4,72 +4,68 @@ define([
 ], function (Aloha, jQuery) {
   'use strict';
 
-  new (Aloha.AbstractRepository.extend({
-    _constructor: function () {
-      this._super('repository');
+  /**
+   * If a DrupalRepository can return Repository Items of more than one type,
+   * then you should override its query() method.
+   */
+  var DrupalRepository = Aloha.AbstractRepository.extend({
+    _constructor: function (repositoryId, repositoryName, url, type) {
+      this._super(repositoryId, repositoryName);
+      this.settings.url = url;
+      this.settings.type = type;
     },
 
-    /**
-     * initalize repository API for Drupal (look-up for link plugin)
-     */
-    init: function () {
-      this.repositoryUrl = false;
-      this.repositoryName = "drupal/local"; // can be any other name
+    init: function () {},
 
-      if (Aloha.settings &&
-        Aloha.settings.repository &&
-        Aloha.settings.repository.drupal &&
-        typeof Aloha.settings.repository.drupal.url !== 'undefinded') {
-        this.repositoryUrl = Aloha.settings.repository.drupal.url;
-      }
-    },
-
-    /**
-     * Searches a repository for object items matching query
-     * uses Drupal search in this case
-     *
-     * @param {Object} p
-     * @param {Function} callback
-     */
     query: function (p, callback) {
-      /* // objectTypeFilter is not used at the moment
-       if ( p.objectTypeFilter && jQuery.inArray('website', p.objectTypeFilter) == -1 ) {
-       callback.call(this, []);
-       } else { */
-      var query = [];
-
+      // Query string must be >3 characters.
       if (p.queryString && p.queryString.length < 3) {
-        // query string needs to be at least 3 chars in Drupal
         callback.call(this, []);
+        return;
       }
-      else {
-        var that = this;
 
-        jQuery.ajax({
-          type: "GET",
-          dataType: "json",
-          url: this.repositoryUrl + p.queryString,
-          success: function (searchResult) {
-            var suggestions = [];
+      // Ensure this repository's type is allowed by the objectTypeFilter.
+      if (jQuery.inArray(this.settings.type, p.objectTypeFilter) == -1) {
+        callback.call(this, []);
+        return;
+      }
 
-            if (searchResult && searchResult.length > 0) {
-              for (var i = 0; i < searchResult.length; i++) {
-                if (typeof searchResult[i] !== "function") {
-                  suggestions.push(new Aloha.RepositoryDocument({
-                    id: searchResult[i].u, // u: url
-                    url: searchResult[i].u,
-                    name: searchResult[i].t, // t: title
-                    weight: searchResult[i].s, // s: score
-                    repositoryId: that.repositoryName,
-                    type: "website"
-                  }));
-                }
+      var that = this;
+      jQuery.ajax({
+        type: "GET",
+        dataType: "json",
+        url: this.settings.url + p.queryString,
+        success: function (searchResults) {
+          var suggestions = [];
+
+          if (searchResults && searchResults.length > 0) {
+            for (var i = 0; i < searchResults.length; i++) {
+              if (typeof searchResults[i] !== "function") {
+                suggestions.push(new Aloha.RepositoryDocument({
+                  id: searchResults[i].u, // u: url
+                  url: searchResults[i].u,
+                  name: searchResults[i].t, // t: title
+                  weight: searchResults[i].s, // s: score
+                  repositoryId: that.repositoryName,
+                  type: that.settings.type
+                }));
               }
-              callback.call(this, suggestions);
             }
+            callback.call(this, suggestions);
           }
-        });
+        }
+      });
+    }
+  });
+
+  // Create a DrupalRepository for every repository listed in the settings.
+  if (Aloha.settings.drupal && Aloha.settings.drupal.repository) {
+    var settings = Aloha.settings.drupal.repository;
+    for (var repositoryId in settings) {
+      if (settings.hasOwnProperty(repositoryId)) {
+        var repo = settings[repositoryId];
+        new DrupalRepository(repositoryId, repo.name, repo.url, repo.type);
       }
     }
-  }))();
+  }
 });

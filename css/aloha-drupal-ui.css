@@ -425,3 +425,22 @@
        -o-box-shadow: 0 0 1px 1px #0199ff;
           box-shadow: 0 0 1px 1px #0199ff;
 }
+
+
+/**
+ * Custom UI for common/image.
+ */
+
+.aloha-ui-component-group > div {
+  display: none;
+}
+
+.aloha-image-input-label {
+  display: inline-block;
+}
+
+.aloha-image-input-label .aloha-ui-label-text {
+  font-weight: normal;
+  font-size: 12px;
+  padding: .5em;
+}

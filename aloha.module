@@ -24,6 +24,13 @@ function aloha_menu() {
     'type' => MENU_CALLBACK,
     'file' => 'includes/pages.inc',
   );
+  $items['aloha/repository/image/%'] = array(
+    'page callback' => 'aloha_repository_image',
+    'page arguments' => array(3),
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+    'file' => 'includes/pages.inc',
+  );
   return $items;
 }
 
@@ -106,6 +113,7 @@ function aloha_library() {
       array('aloha', 'aloha.common/list'),
       array('aloha', 'aloha.common/link'),
       array('aloha', 'aloha.common/paste'),
+      array('aloha', 'aloha.common/image'),
       // Tight Drupal integration.
       array('aloha', 'aloha.drupal/drupal'),
     ),
@@ -310,12 +318,50 @@ function aloha_library() {
       array(
         'type' => 'setting',
         'data' => array('aloha' => array('settings' => array(
-          'plugins' => array('load' => array('common/link')),
+          'plugins' => array(
+            'load' => array('common/link'),
+            'link' => array(
+              'objectTypeFilter' => array('website'),
+            )),
         ))),
       ),
     ),
     'css' => array(
       $library_path . '/plugins/common/link/css/link.css',
+    ),
+  );
+  $libraries['aloha.common/image'] = array(
+    'title' => 'Aloha Editor plug-in: image.',
+    'version' => ALOHA_VERSION,
+    'js' => array(
+      array(
+        'type' => 'setting',
+        'data' => array('aloha' => array(
+          'settings' => array(
+            'toolbar' => array(
+              // Disable all visual UI elements of the image plugin except for a few.
+              'exclude' => array(
+                'imageResizeWidth', 'imageResizeHeight',
+                'imageAlignLeft', 'imageAlignRight', 'imageAlignNone',
+                'imageCropButton', 'imageCnrReset', 'imageCnrRatio',
+                'imageDecPadding', 'imageIncPadding'
+              )
+            ),
+            'plugins' => array(
+              'load' => array('common/image'),
+              'image' => array(
+                'objectTypeFilter' => array('image'),
+                'fixedAspectRatio' => TRUE,
+                'ui' => array(
+                  'meta' => TRUE,
+                  'crop' => FALSE,
+                  'resizable' => FALSE,
+                ),
+              ),
+            ),
+          ),
+        )),
+      )
     ),
   );
 
@@ -340,9 +386,19 @@ function aloha_library() {
         'type' => 'setting',
         'data' => array('aloha' => array('settings' => array(
           'plugins' => array('load' => array('drupal/drupal')),
-          // URL for link look-ups in the "Drupal" repository.
-          'repository' => array(
-            'drupal' => array('url' => url('aloha/repository/link/')),
+          'drupal' => array(
+            'repository' => array(
+              'drupal-links' => array(
+                'type' => 'website',
+                'name' => t('Internal links'),
+                'url' => url('aloha/repository/link/')
+              ),
+              'drupal-images' => array(
+                'type' => 'image',
+                'name' => t('Local images'),
+                'url' => url('aloha/repository/image/'),
+              ),
+            ),
           ),
           'contentHandler' => array(
             'insertHtml' => array('word', 'generic', 'drupal'),

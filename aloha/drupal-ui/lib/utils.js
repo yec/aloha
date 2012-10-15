@@ -58,10 +58,12 @@ define(['jquery', 'jqueryui'], function ($) {
       'imgAlignLeft': '&#x22;',
       'imgAlignRight': '&#x23;',
       'imgAlignCenter': '&#x24;',
+      // 'imageAlignNone':
       // image plug-in
       'image-insert': '&#xe03b;',
       'image-align-left': '&#x22;',
-      'image-align-right': '&#x23;'
+      'image-align-right': '&#x23;',
+      'image-align-none': '&#x24;'
     },
 
     // Source: http://stackoverflow.com/a/9609450.
