@@ -45,7 +45,7 @@ function caption_library() {
                 // we can target it with our custom CSS.
                 'blockClass'          => 'caption-captioned-image-block',
                 // Function callback, gets set in `js/caption-aloha.js`.
-                // 'render' => function() {}, 
+                // 'render' => function() {},
               ),
             ),
             'contentHandler' => array(
@@ -123,7 +123,7 @@ function caption_filter_info() {
 
   /* @aloha */
   if (module_exists('aloha') && module_exists('filter_true_wysiwyg')) {
-    $filters['caption']['type'] = FILTER_TYPE_TRANSFORM_DOM;
+    $filters['caption']['type'] = FILTER_TYPE_TRANSFORM_REVERSIBLE;
   }
 
   return $filters;
