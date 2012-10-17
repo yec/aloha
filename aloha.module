@@ -45,7 +45,7 @@ function aloha_library() {
 
   $libraries['aloha-for-textareas'] = array(
     'title' => 'Drupal behavior to enable Aloha Editor WYSIWYG editing on textareas.',
-    'version' => VERSION,
+    'version' => ALOHA_VERSION,
     'js' => array(
       $module_path . '/js/drupal.aloha.textarea.js' => array(),
       array(
