@@ -39,6 +39,9 @@ define([
     };
 
     var DrupalContentHandler = ContentHandlerManager.createHandler({
+      // bring setting into scope
+      setting: setting,
+
       /**
        * Handle the content from eg. paste action and sanitize the html
        * @param content
