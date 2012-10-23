@@ -559,33 +559,70 @@ function aloha_get_allowed_html_by_format($format_id) {
 }
 
 /**
+ * Check the compatibility of Aloha Editor with a given text format.
+ *
+ * Aloha Editor can only work if the br and p tags are allowed by the text
+ * format and only HTML is used, i.e. no markup language filters are used.
+ *
+ * @param string $format_id
+ *   A text format id.
+ *
+ * @return array
+ *   An array with the following keys:
+ *    - 'filters compatible': whether the filters in the text format are
+ *      compatible
+ *    - 'necessary tags allowed': whether the tags for Aloha Editor to function
+ *      are allowed by the text format
+ *    - 'verdict': whether this text format is compatible with Aloha Editor
+ *       based on the two measures above
+ */
+function _aloha_check_format_compatibility_detailed($format_id) {
+  $filter_types = filter_get_filter_types_by_format($format_id);
+  $allowed_html = aloha_get_allowed_html_by_format($format_id);
+  $allowed_tags = array_keys($allowed_html);
+
+  $filters_compatible = (!in_array(FILTER_TYPE_MARKUP_LANGUAGE, $filter_types));
+  $necessary_tags_allowed = (in_array('br', $allowed_tags) && in_array('p', $allowed_tags));
+
+  return array(
+    'filters compatible' => $filters_compatible,
+    'necessary tags allowed' => $necessary_tags_allowed,
+    'verdict' => $filters_compatible && $necessary_tags_allowed,
+  );
+}
+
+/**
+ * Check the compatibility of Aloha Editor with a given text format.
+ *
+ * @see _aloha_check_format_compatibility_detailed()
+ */
+function aloha_check_format_compatibility($format_id) {
+  $compatibility = _aloha_check_format_compatibility_detailed($format_id);
+  return $compatibility['verdict'];
+}
+
+/**
  * Adds Drupal.settings.aloha.formats and Aloha.settings.plugins.drupal. Ensures
  * Aloha Editor has the metadata to deal with formats.
  */
 function aloha_add_format_settings() {
   $format_settings_added = &drupal_static(__FUNCTION__, FALSE);
 
-  if (!$format_settings_added) {
-    global $user;
-    $formats = filter_formats($user);
+  global $user;
+  $formats = filter_formats($user);
 
+  if (!$format_settings_added) {
     $settings['formats'] = array();
     $settings['settings']['plugins']['drupal'] = array();
 
     // Gather all necessary metadata for each format available to the current
     // user.
     foreach (array_keys($formats) as $format_id) {
-      $filter_types = filter_get_filter_types_by_format($format_id);
-      $allowed_html = aloha_get_allowed_html_by_format($format_id);
-      $allowed_tags = array_keys($allowed_html);
-      $necessary_tags_allowed = (in_array('br', $allowed_tags) && in_array('p', $allowed_tags));
       $class = 'text-format-' . drupal_html_class($format_id);
       $settings['formats'][$format_id] = array(
         'id' => $format_id,
-        // Aloha Editor should only be enabled if no "HTML generator" filters
-        // are used in this format, and the <br> and <p> tags are allowed.
-        'status' => !in_array(FILTER_TYPE_MARKUP_LANGUAGE, $filter_types)
-        && $necessary_tags_allowed,
+        // Only enable Aloha Editor if it is compatible with the text format.
+        'status' => aloha_check_format_compatibility($format_id),
         // The class that will be set on the editable whenever this text format
         // is active.
         'className' => $class,
@@ -602,7 +639,7 @@ function aloha_add_format_settings() {
       // @todo: make this plug-in obsolete: http://drupal.org/node/1806492
       if ($settings['formats'][$format_id]['status']) {
         $settings['settings']['plugins']['drupal']['editables'][".$class"] = array(
-          'allowedTags' => $allowed_tags,
+          'allowedTags' => array_keys(aloha_get_allowed_html_by_format($format_id)),
         );
       }
     }
