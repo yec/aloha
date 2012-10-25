@@ -204,13 +204,13 @@
 .aloha-surface .aloha-toolbar-panels button.ui-state-default {
   background: -webkit-gradient(
     linear,
-    color-stop(0, rgb(254, 254, 254)),
-    color-stop(1, rgb(204, 204, 204))
+    color-stop(0, rgb(245, 245, 245)),
+    color-stop(1, rgb(229, 229, 229))
   );
-  background: -webkit-linear-gradient(rgb(254, 254, 254) 0%, rgb(204, 204, 204) 100%);
-  background:    -moz-linear-gradient(rgb(254, 254, 254) 0%, rgb(204, 204, 204) 100%);
-  background:      -o-linear-gradient(rgb(254, 254, 254) 0%, rgb(204, 204, 204) 100%);
-  background:         linear-gradient(rgb(254, 254, 254) 0%, rgb(204, 204, 204) 100%);
+  background: -webkit-linear-gradient(rgb(245, 245, 245) 0%, rgb(229, 229, 229) 100%);
+  background:    -moz-linear-gradient(rgb(245, 245, 245) 0%, rgb(229, 229, 229) 100%);
+  background:      -o-linear-gradient(rgb(245, 245, 245) 0%, rgb(229, 229, 229) 100%);
+  background:         linear-gradient(rgb(245, 245, 245) 0%, rgb(229, 229, 229) 100%);
 }
 
 .aloha-surface .aloha-toolbar-panels button.ui-state-hover {
