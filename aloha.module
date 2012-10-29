@@ -587,3 +587,17 @@ function aloha_add_format_settings() {
     $format_settings_added = TRUE;
   }
 }
+
+/**
+ * Implements hook_process_html().
+ *
+ * A temporary work-around to avoid needing a core patch. Aloha currently
+ * requires a custom attribute on its script tag.
+ *
+ * @see http://drupal.org/node/1664602
+ */
+function aloha_process_html(&$variables) {
+  if (strpos($variables['scripts'], '/lib/aloha.js') !== FALSE) {
+    $variables['scripts'] = preg_replace('/(\/lib\/aloha\.js[^"]*["])/', '$1 data-aloha-defer-init="true"', $variables['scripts'], 1);
+  }
+}
