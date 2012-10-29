@@ -142,12 +142,6 @@ function aloha_library() {
         'group' => JS_LIBRARY,
         'weight' => -999,
         'defer' => FALSE,
-        'attributes' => array(
-          // Deferred initialization to make it possible for Aloha.settings to
-          // live in Drupal.settings. Actual initialization is done in
-          // drupal.aloha.js.
-          'data-aloha-defer-init' => 'true',
-        ),
         'preprocess' => FALSE,
       ),
       $module_path . '/js/drupal.aloha.js' => array(
