@@ -128,7 +128,7 @@
 
 .aloha-surface .aloha-toolbar-handles ul li a {
   display: block;
-  color: #999;
+  color: #5a5a5a;
   min-width: 40px;
   text-align: center;
   padding: 7px 12px;
@@ -158,7 +158,7 @@
   height: auto;
   border: 1px solid #aaa;
   border-bottom: none; /* The border of the AE textarea will already be there. */
-  color: #878787;
+  color: #5a5a5a;
   font-size: 15px;
 }
 
@@ -204,13 +204,13 @@
 .aloha-surface .aloha-toolbar-panels button.ui-state-default {
   background: -webkit-gradient(
     linear,
-    color-stop(0, rgb(245, 245, 245)),
-    color-stop(1, rgb(229, 229, 229))
+    color-stop(0, rgb(239, 239, 239)),
+    color-stop(1, rgb(245, 245, 245))
   );
-  background: -webkit-linear-gradient(rgb(245, 245, 245) 0%, rgb(229, 229, 229) 100%);
-  background:    -moz-linear-gradient(rgb(245, 245, 245) 0%, rgb(229, 229, 229) 100%);
-  background:      -o-linear-gradient(rgb(245, 245, 245) 0%, rgb(229, 229, 229) 100%);
-  background:         linear-gradient(rgb(245, 245, 245) 0%, rgb(229, 229, 229) 100%);
+  background: -webkit-linear-gradient(rgb(239, 239, 239) 0%, rgb(245, 245, 245) 100%);
+  background:    -moz-linear-gradient(rgb(239, 239, 239) 0%, rgb(245, 245, 245) 100%);
+  background:      -o-linear-gradient(rgb(239, 239, 239) 0%, rgb(245, 245, 245) 100%);
+  background:         linear-gradient(rgb(239, 239, 239) 0%, rgb(245, 245, 245) 100%);
 }
 
 .aloha-surface .aloha-toolbar-panels button.ui-state-hover {
@@ -227,7 +227,7 @@
 }
 
 .aloha-surface .aloha-toolbar-panels button.aloha-button-active {
-  color: #555;
+  color: #353535;
   background: -webkit-gradient(
     linear,
     color-stop(0, rgb(170, 170, 170)),
@@ -240,7 +240,7 @@
 }
 
 .aloha-surface .aloha-toolbar-panels button.ui-state-active {
-  color: #333;
+  color: #222;
   background: -webkit-gradient(
     linear,
     color-stop(0, rgb(136, 136, 136)),
