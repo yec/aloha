@@ -22,6 +22,15 @@ function _aloha_allowed_html_tests() {
         'names' => array('dir'),
       ),
     ),
+    array(
+      'tag' => 'blockquote',
+      'testcase' => '<blockquote>Veni, vidi, vici.</blockquote>',
+      'attributes' => array(
+        'prefix' => '<blockquote ',
+        'suffix' => '>Veni, vidi, vici!</blockquote>',
+        'names' => array('cite'),
+      ),
+    ),
     array('tag' => 'h1', 'testcase' => '<h1>heading 1</h1>'),
     array('tag' => 'h2', 'testcase' => '<h2>heading 2</h2>'),
     array('tag' => 'h3', 'testcase' => '<h3>heading 3</h3>'),
@@ -47,6 +56,8 @@ function _aloha_allowed_html_tests() {
     array('tag' => 'i', 'testcase' => '<p><i>italicized</i></p>'),
     array('tag' => 'b', 'testcase' => '<p><b>bold</b></p>'),
     array('tag' => 'u', 'testcase' => '<p><u>underlined</u></p>'),
+    array('tag' => 'cite', 'testcase' => '<p><cite>He</cite> said "WOW, Drupal rocks!"</p>'),
+    array('tag' => 'q', 'testcase' => '<p>He said <q>"WOW, Drupal rocks!"</q></p>'),
     array('tag' => 'br', 'testcase' => '<p>First line<br />Second line</p>'),
     array(
       'tag' => 'code',
