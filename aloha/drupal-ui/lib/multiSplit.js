@@ -52,7 +52,8 @@ define([
         menuItems.push({
           text: button.tooltip,
           icon: button.icon,
-          click: button.click
+          click: button.click,
+          name: button.name
         });
       });
 
@@ -65,8 +66,48 @@ define([
 
       // Ensure the button is shown/hidden depending on the current selection.
       this.element = formatMenuButton.element;
+      this.items = formatMenuButton.items;
       this.setActiveButton('p'); // @todo: don't make this assumption!
       Surface.trackRange(this.element);
+    },
+
+    show: function (name) {
+      if (!name) {
+        name = null;
+      }
+      if (null !== name && this.items[name] !== undefined) {
+        this.items[name].element.show();
+        this.items[name].visible = true;
+        // since we show at least one button now, we need to show the multisplit button
+        this.element.show();
+      }
+    },
+
+    hide: function (name) {
+      var item, visible = false;
+
+      if (!name) {
+        name = null;
+      }
+      if (null !== name && this.items[name] !== undefined) {
+        this.items[name].element.hide();
+        this.items[name].visible = false;
+
+        // now check, if there is a visible button
+        for (item in this.items) {
+          if (this.items.hasOwnProperty(item)) {
+            if (this.items[item].visible) {
+              this.element.show();
+              visible = true;
+              break;
+            }
+          }
+        }
+
+        if (!visible) {
+          this.element.hide();
+        }
+      }
     },
 
     setActiveButton: function (index) {
