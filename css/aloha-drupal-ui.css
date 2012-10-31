@@ -54,6 +54,8 @@
           user-select: text;
 }
 
+.aloha-surface .ui-helper-hidden-accessible { position: absolute !important; clip: rect(1px 1px 1px 1px); clip: rect(1px,1px,1px,1px); }
+
 /**
  * General UI.
  */
