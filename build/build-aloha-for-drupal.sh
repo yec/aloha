@@ -20,7 +20,7 @@ echo "[1/6] Cloning Aloha Editor"
 
 git clone git://github.com/alohaeditor/Aloha-Editor.git --depth 1 --branch $TAG
 cd Aloha-Editor
-git checkout 27110c00ba
+git checkout f9b2a7679abc913e4ccf16ce4bccacd8c998b592
 cd ..
 # mkdir Aloha-Editor
 # cd Aloha-Editor
@@ -57,6 +57,7 @@ rm -rf $TARGETDIR/demo
 rm -rf $TARGETDIR/img
 rm -rf $TARGETDIR/lib/aloha/nls
 rm -rf $TARGETDIR/lib/vendor/grid.locale.*
+find $TARGETDIR -name "README*" -type f -exec rm {} +
 # Remove bundled jQuery versions.
 rm -rf $TARGETDIR/lib/vendor/3rdparty.txt
 rm -rf $TARGETDIR/lib/vendor/jquery-1.*
@@ -99,6 +100,7 @@ rm -rf $TARGETDIR/text.js
 echo "[5/6] Minifying"
 
 uglifyjs -o $TARGETDIR/css.js $TARGETDIR/css.js
+uglifyjs -o $TARGETDIR/aloha/ierange-m2.js $TARGETDIR/aloha/ierange-m2.js
 uglifyjs -o $TARGETDIR/lib/aloha.js $TARGETDIR/lib/aloha.js
 uglifyjs -o $TARGETDIR/lib/vendor/class.js $TARGETDIR/lib/vendor/class.js
 uglifyjs -o $TARGETDIR/lib/vendor/sanitize.js $TARGETDIR/lib/vendor/sanitize.js

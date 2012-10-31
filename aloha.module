@@ -11,7 +11,7 @@
  */
 
 // @todo Establish a versioning scheme for our custom build.
-const ALOHA_VERSION = 'custom build: 0.22.1 + patches';
+const ALOHA_VERSION = 'custom build: 0.22.2+dev at f9b2a7679abc913e4ccf16ce4bccacd8c998b592';
 
 /**
  * Implements hook_menu().
