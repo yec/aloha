@@ -603,9 +603,11 @@ function aloha_add_format_settings() {
     $tag_mapping = array(
       'a' => 'link',
       // Drupal does not approve <b>.
+      'b' => FALSE,
       'blockquote' => 'cite',
       'br' => 'format',
       'cite' => 'cite',
+      'code' => 'format',
       'em' => 'format',
       'h1' => 'format',
       'h2' => 'format',
@@ -614,9 +616,12 @@ function aloha_add_format_settings() {
       'h5' => 'format',
       'h6' => 'format',
       // Drupal does not approve <i>.
+      'i' => FALSE,
       'img' => 'image',
+      'li' => 'list',
       'ol' => 'list',
       'p' => 'format',
+      'q' => 'cite',
       'pre' => 'format',
       's' => 'format',
       'strong' => 'format',
@@ -663,7 +668,13 @@ function aloha_add_format_settings() {
       }
       $tags = array_keys($allowed_html);
       foreach ($tags as $tag) {
+        if (!isset($tag_mapping[$tag])) {
+          continue;
+        }
         $plugin = $tag_mapping[$tag];
+        if ($plugin === FALSE) {
+          continue;
+        }
         $settings['settings']['plugins'][$plugin]['editables']['.' . $class][] = $tag;
         // For some, there also exists an attribute mapping.
         if (isset($attr_mapping[$tag])) {
