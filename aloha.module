@@ -248,9 +248,7 @@ function aloha_library() {
         'type' => 'setting',
         'data' => array('aloha' => array('settings' => array(
           'plugins' => array('load' => array('common/contenthandler')),
-          'contentHandler' => array(
-            'allows' => array('elements' => array(), 'attributes' => array()),
-          ),
+          'contentHandler' => array(),
         ))),
       ),
     ),
@@ -367,7 +365,7 @@ function aloha_library() {
     ),
   );
   $libraries['aloha.drupal/drupal'] = array(
-    'title' => '"Drupal" Aloha Editor plug-in: contenthandler + link repository',
+    'title' => '"Drupal" Aloha Editor plug-in: link repository',
     'version' => VERSION,
     'js' => array(
       array(
