@@ -48,16 +48,6 @@ function aloha_library() {
     'version' => VERSION,
     'js' => array(
       $module_path . '/js/drupal.aloha.textarea.js' => array(),
-      array(
-        'type' => 'setting',
-        'data' => array('aloha' => array('settings' => array(
-          // Allow other modules, e.g. the Edit module, to embed the rendered
-          // toolbar within their own DOM infrastructure.
-          'DrupalUI' => array(
-            'renderOwnToolbarContainer' => TRUE,
-          ),
-        ))),
-      ),
     ),
     'dependencies' => array(
       array('aloha', 'aloha'),
