@@ -17,7 +17,7 @@
 function aloha_repository_link($lookup = false) {
   $lookup = check_plain($lookup);
 
-  $search_results = node_search_execute($lookup);
+  $search_results = module_invoke_all('search_execute', $lookup);
 
   if (is_array($search_results) && empty($search_results[0])) {
     $search_results = false;
