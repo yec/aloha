@@ -149,7 +149,8 @@ define([
      */
     $toolbarSurfaceContainer: null,
 
-    // @todo: get rid of this by fixing AE plug-ins that incorrectly assume this exists!
+    // @todo: POST_COMMIT(Aloha Editor, https://github.com/alohaeditor/Aloha-Editor/issues/747)
+    // Get rid of this: fix AE plug-ins that incorrectly assume this exists!
     $surfaceContainer: $([]),
 
     /**

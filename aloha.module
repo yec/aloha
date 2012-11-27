@@ -6,11 +6,10 @@
  */
 
 /**
- * @todo Improve Aloha Editor build for Drupal.
- * @see http://drupal.org/node/1782348
+ * @todo POST_COMMIT(Aloha Editor, https://github.com/alohaeditor/Aloha-Editor/issues/737, http://drupal.org/node/1782348)
+ * Improve Aloha Editor build for Drupal.
  */
 
-// @todo Establish a versioning scheme for our custom build.
 const ALOHA_VERSION = 'custom build: 0.22.2+dev at f9b2a7679abc913e4ccf16ce4bccacd8c998b592';
 
 /**
@@ -578,9 +577,8 @@ function aloha_check_format_compatibility($format_id) {
  * Adds Drupal.settings.aloha.formats and Aloha.settings.plugins.drupal. Ensures
  * Aloha Editor has the metadata to deal with formats.
  *
- * @todo refactor; how to make the mapping of Aloha cleaner?
- * @todo revisit mapping when this Aloha issue is solved:
- *       https://github.com/alohaeditor/Aloha-Editor/issues/794
+ * @todo POST_COMMIT(Aloha Editor, https://github.com/alohaeditor/Aloha-Editor/issues/794).
+ * Revisit mapping when this Aloha issue is solved.
  */
 function aloha_add_format_settings() {
   $format_settings_added = &drupal_static(__FUNCTION__, FALSE);

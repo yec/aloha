@@ -88,8 +88,8 @@ function _aloha_allowed_html_tests() {
  * @return
  *   @see aloha_get_allowed_html_by_format()
  *
- * @todo  Refactor.
- * @todo  Unit tests. Start from http://drupal.org/node/1782838#comment-6562024.
+ * @todo: POST_COMMIT. Refactor.
+ * @todo: PRE_COMMIT. Unit tests. Start from http://drupal.org/node/1782838#comment-6562024.
  */
 function _aloha_calculate_allowed_html($format_id) {
   // For testing whether any attribute is allowed.

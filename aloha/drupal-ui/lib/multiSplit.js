@@ -35,15 +35,11 @@ define([
       jQuery.each(this.buttons, function (i, button) {
         var text = button.name.toUpperCase();
 
-        // @todo: this is a quick hack to remove the "remove formatting" button
-        // from the p/h1/... dropdown; we want it to live elsewhere.
+        // @todo: POST_COMMIT(Aloha Editor, https://github.com/alohaeditor/Aloha-Editor/issues/747)
+        // This is a quick hack to remove the "remove formatting" button from
+        // the p/h1/... dropdown; we want it to live elsewhere.
         if (button.name === "removeFormat") {
           return;
-        }
-
-        // @todo: fix this upstream; this is a typo in AE.
-        if (button.tooltip === 'Pre formated text') {
-          button.tooltip = "Preformatted text";
         }
 
         // In Drupal's UI, we don't have "large icons". Rename the class name so
@@ -67,7 +63,10 @@ define([
       // Ensure the button is shown/hidden depending on the current selection.
       this.element = formatMenuButton.element;
       this.items = formatMenuButton.items;
-      this.setActiveButton('p'); // @todo: don't make this assumption!
+      // @todo: POST_COMMIT(Aloha Editor, https://github.com/alohaeditor/Aloha-Editor/issues/747)
+      // Don't make this assumption! Aloha Editor's UI should pass us the
+      // necessary information.
+      this.setActiveButton('p');
       Surface.trackRange(this.element);
     },
 
