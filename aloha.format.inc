@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Aloha Editor Repository API page callbacks.
+ * Aloha Editor format handling: blackbox testing to detect allowed HTML.
  */
 
 /**
@@ -105,7 +105,7 @@ function _aloha_calculate_allowed_html($format_id) {
     return stripos($result, $original) !== FALSE;
   };
 
-  // Run all the above tagtests to determine which tags and attributes are
+  // Run all the above tag tests to determine which tags and attributes are
   // allowed in the given text format.
   $allowed_html = array_reduce(
     _aloha_allowed_html_tests(),

@@ -21,14 +21,14 @@ function aloha_menu() {
     'page arguments' => array(3),
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
-    'file' => 'includes/pages.inc',
+    'file' => 'aloha.pages.inc',
   );
   $items['aloha/repository/image/%'] = array(
     'page callback' => 'aloha_repository_image',
     'page arguments' => array(3),
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
-    'file' => 'includes/pages.inc',
+    'file' => 'aloha.pages.inc',
   );
   return $items;
 }
@@ -85,7 +85,7 @@ function aloha_library() {
   // be loaded should hook_library_alter() this library and inject their own
   // dependencies.
   // Look at Drupal.settings.aloha.settings.plugins.load (this is identical to
-  // Aloha.settings.plugins) to see the fullly expanded list of Aloha Editor
+  // Aloha.settings.plugins) to see the fully expanded list of Aloha Editor
   // plug-ins that will be loaded.
   $libraries['aloha'] = array(
     'title' => 'Pseudo-library that depends on the core of Aloha Editor and contains a list of all Aloha Editor plug-ins that should be loaded.',
@@ -342,7 +342,7 @@ function aloha_library() {
 
   // Aloha Editor: "drupal" bundle of plug-ins (shipped with this module).
   $libraries['aloha.drupal'] = array(
-    'title' => 'Register the "drupal" bundle, this is the bundle that ships with this module, the "Aloha" module.',
+    'title' => '"Drupal" plugin bundle.',
     'version' => VERSION,
     'js' => array(
       array(
@@ -354,7 +354,7 @@ function aloha_library() {
     ),
   );
   $libraries['aloha.drupal/drupal'] = array(
-    'title' => '"Drupal" Aloha Editor plug-in: link repository',
+    'title' => '"Drupal" Aloha Editor plug-in: link and image repositories.',
     'version' => VERSION,
     'js' => array(
       array(
@@ -505,10 +505,9 @@ function aloha_filter_format_update($format) {
 }
 
 /**
- * Get a list of HTML tags and attributes that are allowed by a given text
- * format, by performing black-box testing.
+ * Get a allowed HTML tags and attributes using blackbox testing.
  *
- * @param  string $format_id
+ * @param string $format_id
  *   A text format ID.
  * @return array
  *   An array of which the keys list all allowed tags and the corresponding
@@ -523,7 +522,7 @@ function aloha_get_allowed_html_by_format($format_id) {
     return $cached->data;
   }
 
-  module_load_include('inc', 'aloha', 'includes/format');
+  module_load_include('inc', 'aloha', 'aloha.format');
   $allowed_html = _aloha_calculate_allowed_html($format_id);
   cache_set($cache_id, $allowed_html, 'cache_filter');
 
@@ -546,7 +545,7 @@ function aloha_get_allowed_html_by_format($format_id) {
  *    - 'necessary tags allowed': whether the tags for Aloha Editor to function
  *      are allowed by the text format
  *    - 'verdict': whether this text format is compatible with Aloha Editor
- *       based on the two measures above
+ *      based on the two measures above
  */
 function _aloha_check_format_compatibility_detailed($format_id) {
   $filter_types = filter_get_filter_types_by_format($format_id);
@@ -574,8 +573,9 @@ function aloha_check_format_compatibility($format_id) {
 }
 
 /**
- * Adds Drupal.settings.aloha.formats and Aloha.settings.plugins.drupal. Ensures
- * Aloha Editor has the metadata to deal with formats.
+ * Ensures Aloha Editor has the metadata to deal with formats.
+ *
+ * Adds Drupal.settings.aloha.formats and Aloha.settings.plugins.drupal.
  *
  * @todo POST_COMMIT(Aloha Editor, https://github.com/alohaeditor/Aloha-Editor/issues/794).
  * Revisit mapping when this Aloha issue is solved.
@@ -588,7 +588,7 @@ function aloha_add_format_settings() {
     // Mapping from HTML element to Aloha Editor plug-in.
     $tag_mapping = array(
       'a' => 'link',
-      // Drupal does not approve <b>.
+      // Drupal does not allow <b>.
       'b' => FALSE,
       'blockquote' => 'cite',
       'br' => 'format',
@@ -601,7 +601,7 @@ function aloha_add_format_settings() {
       'h4' => 'format',
       'h5' => 'format',
       'h6' => 'format',
-      // Drupal does not approve <i>.
+      // Drupal does not allow <i>.
       'i' => FALSE,
       'img' => 'image',
       'li' => 'list',
@@ -662,7 +662,7 @@ function aloha_add_format_settings() {
           continue;
         }
         $settings['settings']['plugins'][$plugin]['editables']['.' . $class][] = $tag;
-        // For some, there also exists an attribute mapping.
+        // For some, there is also an attribute mapping.
         if (isset($attr_mapping[$tag])) {
           $attrs = array_keys($attr_mapping[$tag]);
           $allowed_attrs = $allowed_html[$tag];
