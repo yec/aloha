@@ -17,7 +17,7 @@
 function aloha_repository_link($lookup = false) {
   $lookup = check_plain($lookup);
 
-  $search_results = node_search_execute($lookup);
+  $search_results = module_invoke_all('search_execute', $lookup);
 
   if (is_array($search_results) && empty($search_results[0])) {
     $search_results = false;
@@ -40,7 +40,7 @@ function aloha_repository_link($lookup = false) {
 /**
  * Page callback: looks up relevant images in the site given a keyword.
  *
- * Note that also files with status = 0 are returned, i.e. those who were
+ * Note that also files with status = 0 are returned, i.e. those which were
  * uploaded at some point in time, but not necessarily used.
  *
  * @param string $lookup
@@ -50,6 +50,7 @@ function aloha_repository_link($lookup = false) {
  *   A JSON-encoded result.
  */
 function aloha_repository_image($lookup) {
+  // @todo: POST_COMMIT. Convert to EFQ2.
   $result = db_query("SELECT * FROM {file_managed} WHERE SUBSTRING(filemime, 1, 6) = 'image/' AND filename LIKE :lookup ORDER BY timestamp DESC", array(
     ':lookup' => "%$lookup%"
   ));
